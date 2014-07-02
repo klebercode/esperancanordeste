@@ -1,0 +1,17 @@
+bin
+build
+include
+lib
+local
+man
+share
+Scripts
+.Python
+*.pyc
+*~
+*.sqlite3
+.DS_Store
+.env
+esperancanordeste/staticfiles
+esperancanordeste/media
+ignore
