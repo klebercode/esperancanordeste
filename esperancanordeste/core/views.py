@@ -4,7 +4,7 @@ from django.views.generic.base import TemplateView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 
-# from forms import * 
+# from forms import *
 
 def home(request):
     context = {}

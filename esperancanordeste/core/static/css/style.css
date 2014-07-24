@@ -6623,21 +6623,20 @@ body {
   height: auto !important;
   /* for older versions of IE */
   height: 100%;
-  padding-top: 95px;
+  padding-top: 150px; /* 95px; */
   /* navbar height + margin */
-  margin-bottom: -409px;
+  /* margin-bottom: -409px; */
   /* footer height + margin */
-  padding-bottom: 409px;
+  /* padding-bottom: 409px; */
   /* footer height + margin */
-  border-bottom: 5px solid #58b952;
 }
 /* ===== Homepage Slider ===== */
 .home-slider {
-  margin-top: -30px;
-  /*min-height: 100%;
+  margin-top: -74px; /* -19px; */
+  min-height: 100%;
   height: auto !important;
-  margin-bottom: -93px;
-  padding-bottom: 123px;*/
+  /* margin-bottom: -93px;
+  padding-bottom: 123px; */
 }
 .home-slider .carousel-inner > .item {
   padding: 80px 0 0;
@@ -7662,4 +7661,18 @@ footer .form-control {
 }
 .tweet > p > a {
   display: block;
+}
+
+/* Kleber  */
+.top-new {
+    background-color: #fff;
+}
+.menu-green {
+    background-color: #58b952;
+    min-height: 45px;
+    line-height: 45px;
+    color: #fff;
+}
+.bot {
+    border-bottom: 4px solid #58b952;
 }
