@@ -29,19 +29,35 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 TEMPLATE_DEBUG = DEBUG
 
-ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '.herokuapp.com', '.esperancanordeste.com.br', '.ow7.com.br']
+ALLOWED_HOSTS = ['.localhost',
+                 '127.0.0.1',
+                 '.herokuapp.com',
+                 '.esperancanordeste.com.br',
+                 '.ow7.com.br']
 
 
 # Application definition
 
 INSTALLED_APPS = (
+    'grappelli_extensions',
+    'grappelli',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
+    # other apps
+    'south',
+    'tinymce',
+    'sorl.thumbnail',
+    'mce_filebrowser',
+    'taggit',
+
+    # my apps
     'esperancanordeste.core',
 )
 
@@ -82,6 +98,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+SITE_ID = 1
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
@@ -101,3 +118,58 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # EMAIL_HOST = config('EMAIL_HOST', default='localhost')
 # EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 # EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+
+
+# django-tinymce
+# TINYMCE_JS_URL = STATIC_URL + 'tiny_mce/tiny_mce.js'
+TINYMCE_DEFAULT_CONFIG = {
+    'theme_advanced_buttons1': "cut,copy,paste,|,undo,redo,|,cleanup,|,bold,\
+                                italic,underline,strikethrough,|,forecolor,\
+                                backcolor,|,justifyleft,justifycenter,\
+                                justifyright,justifyfull,|,help,|,code",
+    'theme_advanced_buttons2': "removeformat,formatselect,fontsizeselect,|,\
+                                bullist,numlist,outdent,indent,|,link,unlink,\
+                                anchor,sub,sup,|,hr,advhr,visualaid,|,image,\
+                                media,|,preview,",
+    'height': '350',
+    'file_browser_callback': 'mce_filebrowser',
+}
+
+
+# grappelli
+GRAPPELLI_ADMIN_TITLE = 'OW7 | CMS'
+
+# GRAPPELLI_EXTENSIONS_NAVBAR = 'pmsal.extensions.Navbar'
+
+# GRAPPELLI_EXTENSIONS_SIDEBAR = 'pmsal.extensions.Sidebar'
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+)
+
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.request',
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.core.context_processors.tz',
+    # 'django.contrib.messages.context_processors.messages',
+    'django.core.context_processors.request',
+)
+
+
+# south {taggit}
+SOUTH_MIGRATION_MODULES = {
+    'taggit': 'taggit.south_migrations',
+    'photologue': 'photologue.south_migrations',
+}
+
+# # filebrowser
+# FILEBROWSER_MEDIA_URL = MEDIA_URL
+# FILEBROWSER_URL_FILEBROWSER_MEDIA = MEDIA_URL + 'filebrowser/'
+# FILEBROWSER_URL_TINYMCE = MEDIA_URL + "/tiny_mce/"
+# FILEBROWSER_PATH_TINYMCE = "tiny_mce/"

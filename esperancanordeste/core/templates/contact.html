@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block nav_contact %} active{% endblock %}
+
+{% block content %}
+
+    <!-- Wrapper -->
+    <div class="wrapper">
+
+      <!-- Topic Header -->
+      <div class="topic contact">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-4">
+              <h3>Contato</h3>
+            </div>
+            <!--
+            <div class="col-sm-8">
+              <ol class="breadcrumb pull-right hidden-xs">
+                <li><a href="index.html">Home</a></li>
+                <li class="active">Contact Us</li>
+              </ol>
+            </div>
+            -->
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-8">
+            <h3 class="headline first-child"><span>Envie sua mensagem</span></h3>
+            <p>Nós estamos sempre à disposição dos nossos clientes e parceiros.<br>
+            Pensando nisso criamos um canal de contato, basta preencha o
+            formulário abaixo e logo entraremos em contato com você.</p>
+
+            {% if contact_success %}
+            <p>Mensagem enviada com sucesso.</p>
+            <a href="{% url 'contact' %}" class="btn btn-blue">Voltar</a>
+            {% else %}
+            <form method="post" action=".">
+                {% csrf_token %}
+                {% for field in contact_form %}
+                    <div class="form-group">
+                        <label for="{{ field.name }}">{{ field.label }}</label>
+                        {{ field }}
+                        {{ field.errors }}
+                    </div>
+                {% endfor %}
+                <input type="submit" name="enviar" class="btn btn-blue" value="Enviar mensagem">
+            </form>
+            {% endif %}
+          </div>
+          <div class="col-sm-4">
+            <h3 class="headline second-child"><span>Nosso endereço</span></h3>
+            <p>
+              {{ enterprise.address }}, {{ enterprise.number }}<br />
+              CEP {{ enterprise.cep }}, {{ enterprise.district }}, {{ enterprise.city }}/{{ enterprise.state }} <br />
+              Fone: {{ enterprise.phone1 }}<br />
+              Email: {{ enterprise.email }}
+            </p>
+            <h3 class="headline"><span>Como chegar</span></h3>
+            <div class="google-maps">
+              <iframe width="500" height="450" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=pt&amp;geocode=&amp;q=Esperança+Nordeste&amp;aq=0&amp;oq=san+f&amp;sll=-8.0857735,-34.9289343&amp;sspn=0.158751,0.338173&amp;ie=UTF8&amp;hq=&amp;hnear=%D0%A1%D0%B0%D0%BD-%D0%A4%D1%80%D0%B0%D0%BD%D1%86%D0%B8%D1%81%D0%BA%D0%BE,+%D0%9A%D0%B0%D0%BB%D0%B8%D1%84%D0%BE%D1%80%D0%BD%D0%B8%D1%8F,+%D0%A1%D0%BE%D0%B5%D0%B4%D0%B8%D0%BD%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5+%D0%A8%D1%82%D0%B0%D1%82%D1%8B+%D0%90%D0%BC%D0%B5%D1%80%D0%B8%D0%BA%D0%B8&amp;t=m&amp;ll=-8.0857735,-34.9289343&amp;spn=0.023745,0.030041&amp;z=14&amp;iwloc=A&amp;output=embed"></iframe><br /><small><a href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=pt&amp;geocode=&amp;q=Esperança+Nordeste&amp;aq=0&amp;oq=san+f&amp;sll=-8.0857735,-34.9289343&amp;sspn=0.158751,0.338173&amp;ie=UTF8&amp;hq=&amp;hnear=%D0%A1%D0%B0%D0%BD-%D0%A4%D1%80%D0%B0%D0%BD%D1%86%D0%B8%D1%81%D0%BA%D0%BE,+%D0%9A%D0%B0%D0%BB%D0%B8%D1%84%D0%BE%D1%80%D0%BD%D0%B8%D1%8F,+%D0%A1%D0%BE%D0%B5%D0%B4%D0%B8%D0%BD%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5+%D0%A8%D1%82%D0%B0%D1%82%D1%8B+%D0%90%D0%BC%D0%B5%D1%80%D0%B8%D0%BA%D0%B8&amp;t=m&amp;ll=37.774921,-122.419453&amp;spn=0.023745,0.030041&amp;z=14&amp;iwloc=A" style="color:#0000FF;text-align:left">Ver mapa grande</a></small>
+            </div>
+          </div>
+        </div> <!-- / .row -->
+      </div> <!-- / .container -->
+
+    </div> <!-- / .wrapper -->
+
+{% endblock content %}

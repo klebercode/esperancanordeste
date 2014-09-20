@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block nav_order %} active{% endblock %}
+
+{% block content %}
+
+    <!-- Wrapper -->
+    <div class="wrapper">
+
+      <!-- Topic Header -->
+      <div class="topic order">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-4">
+              <h3>Receba seu Pedido</h3>
+            </div>
+            <!--
+            <div class="col-sm-8">
+              <ol class="breadcrumb pull-right hidden-xs">
+                <li><a href="index.html">Home</a></li>
+                <li class="active">Contact Us</li>
+              </ol>
+            </div>
+            -->
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <h3 class="headline first-child">
+              <span>Instruções para recebimento do seu pedido</span>
+            </h3>
+            <p>
+              {% autoescape off %}
+              <p>{{ object.body|linebreaks|cut:"../../../.." }}</p>
+              {% endautoescape %}
+            </p>
+          </div>
+        </div> <!-- / .row -->
+      </div> <!-- / .container -->
+
+    </div> <!-- / .wrapper -->
+
+{% endblock content %}

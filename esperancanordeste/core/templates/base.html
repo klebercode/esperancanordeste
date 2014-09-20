@@ -1,0 +1,255 @@
+{% load i18n %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="OW7">
+    <!--<link rel="shortcut icon" href="ico/favicon.ico">-->
+
+    <title>{{ enterprise.name }}</title>
+
+    <!-- Owl Carousel Assets -->
+    <link href="{{ STATIC_URL }}owl-carousel/owl.carousel.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}owl-carousel/owl.theme.css" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <!--<link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet">-->
+
+    <!-- Custom styles for this template -->
+    <link href="{{ STATIC_URL }}css/style.css" rel="stylesheet">
+
+    <!-- Resources -->
+    <link href="{{ STATIC_URL }}fonts/font-awesome-4.0.3/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/animate.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/lightbox.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="top-new">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'home' %}">
+              <img src="{{ STATIC_URL }}img/logo.png" alt="{{ enterprise.name }}">
+            </a>
+          </div>
+          <!-- Collapse -->
+          <div class="collapse navbar-collapse">
+            <div class="row top-menu">
+              <div class="col-md-8 pull-right">
+                <ul class="nav navbar-nav navbar-right">
+                  <li class="hidden-sm{% block nav_institutional %}{% endblock %}">
+                    <a href="{% url 'institutional' %}">Institucional</a>
+                  </li>
+                  <li class="hidden-sm{% block nav_area %}{% endblock %}">
+                    <a href="#">Área de Atuação</a>
+                  </li>
+                  <li class="hidden-sm{% block nav_campain %}{% endblock %}">
+                    <a href="#">Campanha</a>
+                  </li>
+                  <li class="hidden-sm{% block nav_estimate %}{% endblock %}">
+                    <a href="{% url 'estimate' %}">Cotação</a>
+                  </li>
+                  <li class="hidden-sm{% block nav_contact %}{% endblock %}">
+                    <a href="{% url 'contact' %}">Contato</a>
+                  </li>
+                </ul>
+                <div class="row info">
+                  <div class="col-md-9 pull-right">
+                    <div class="col-md-5 phone">{{ enterprise.phone1 }}</div>
+                    <div class="col-md-5">
+                      SEGUNDA A SEXTA: 08H ÀS 18H<br>
+                      SABÁDO: 08H ÀS 12H
+                    </div>
+                    <div class="col-md-2 social">
+                      <img src="{{ STATIC_URL }}img/facebook_en.png">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+      <div class="collapse navbar-collapse">
+        <div class="container menu-two">
+          <ul class="nav navbar-nav col-sm-9">
+            <li class="hidden-sm">
+              <a href="#">Categoria de Produtos</a>
+            </li>
+            <li class="hidden-sm">
+              <a href="#">Marcas</a>
+            </li>
+            <li class="hidden-sm">
+              <a href="#">Promoções</a>
+            </li>
+            <li class="hidden-sm">
+              <a href="#">Catálogo de Produtos</a>
+            </li>
+          </ul>
+          <div class="col-sm-3 search">
+            <form class="form" role="form">
+              <div class="row">
+                <div class="input-group">
+                  <input type="text" class="form-control" id="search" placeholder="Buscar">
+                  <span class="input-group-btn">
+                    <button type="submit" class="btn"><i class="fa fa-search"></i></button>
+                  </span>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="container shadow"><br></div>
+      </div>
+    </div> <!-- / .navigation -->
+
+    {% block content %}
+
+    {% endblock content %}
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <!-- Contact Us -->
+          <div class="col-sm-4">
+            <h4><i class="fa fa-map-marker"></i> Contato</h4>
+            <p>Não hesite em contactar-nos se você tiver dúvidas ou solicitações:</p>
+            <p>
+              {{ enterprise.address }}, {{ enterprise.number }}<br>
+              CEP {{ enterprise.cep }}, {{ enterprise.district }}, {{ enterprise.city }}/{{ enterprise.state }}<br>
+              Fone: {{ enterprise.phone1 }}<br>
+              Email: {{ enterprise.email }}
+            </p>
+          </div>
+          <!-- Recent Tweets -->
+          <div class="col-sm-4 social">
+            <h4><i class="fa fa-users"></i> Social</h4>
+            {% for logo in social_list %}
+                {% if forloop.first %}
+                    <p>{{ logo.social }}</p>
+                {% endif %}
+                <div class="col-sm-6">
+                  <img class="img-responsive" src="{{ logo.image.url }}" alt="{{ logo.name }}">
+                </div>
+            {% endfor %}
+          </div>
+          <!-- Newsletter -->
+          <div class="col-sm-4">
+            <h4><i class="fa fa-envelope"></i> Newsletter</h4>
+            <p>
+              Digite seu e-mail abaixo para assinar nossa newsletter gratuita.
+              <br>
+              Prometemos não incomodá-lo muitas vezes!
+            </p>
+            <form class="form" role="form">
+              <div class="row">
+                <div class="col-sm-8">
+                  <div class="input-group">
+                    <label class="sr-only" for="subscribe-email">Email</label>
+                    <input type="email" class="form-control" id="subscribe-email" placeholder="Digite seu email">
+                    <span class="input-group-btn">
+                      <button type="submit" class="btn btn-default">OK</button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Copyright -->
+    <div class="bot">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-10">
+              <div class="copyright">
+                Copyright 2014 - {{ enterprise.name }} - CNPJ: {{ enterprise.cnpj }}
+              </div>
+            </div>
+            <div class="col-sm-2 pull-right">
+              <div class="copyright pull-right">
+                <a href="http://www.jookle.com.br/">Jookle</a>
+              </div>
+            </div>
+          </div>  <!-- / .row -->
+        </div> <!-- / .container -->
+    </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+    <script src="{{ STATIC_URL }}js/scrolltopcontrol.js"></script>
+    <script src="{{ STATIC_URL }}js/lightbox-2.6.min.js"></script>
+    <script src="{{ STATIC_URL }}js/custom.js"></script>
+    <script src="{{ STATIC_URL }}js/index.js"></script>
+    <script src="{{ STATIC_URL }}owl-carousel/owl.carousel.js"></script>
+
+    <script>
+      $(document).ready(function() {
+        $("#owl-demo").owlCarousel({
+          autoPlay: 5000,
+          stopOnHouver: true,
+          navigation: false,
+          paginationSpeed: 1000,
+          goToFirstSpeed: 0,
+          singleItem: true,
+          autoHeight: true,
+          //transitionStyle: "fade"
+        });
+        $("#owl-demo2").owlCarousel({
+          autoPlay: 5000,
+          stopOnHouver: true,
+          navigation: false,
+          paginationSpeed: 1000,
+          goToFirstSpeed: 0,
+          singleItem: true,
+          autoHeight: false,
+          //transitionStyle: "fade"
+        });
+        $("#owl-suppliers").owlCarousel({
+          autoPlay: 3000,
+          items: 11,
+          /*itemsDesktop : [1199,3],
+          itemsDesktopSmall : [979,3]*/
+          itemsDesktop : [1199,8], //5 items between 1000px and 901px
+          itemsDesktopSmall : [979,6], // betweem 900px and 601px
+          itemsTablet: [600,4], //2 items between 600 and 0
+          itemsMobile : false, // itemsMobile disabled - inherit from itemsTablet option
+          navigation: false,
+          pagination: false,
+        });
+      });
+    </script>
+
+    {% block extra_js %}
+
+    {% endblock extra_js %}
+  </body>
+</html>

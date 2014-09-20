@@ -1,12 +1,85 @@
 # coding: utf-8
-from django.shortcuts import render, render_to_response
-from django.views.generic.base import TemplateView
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
+from django.shortcuts import render, get_object_or_404
+from django.template import RequestContext
+from django.views import generic
 
-# from forms import *
+from esperancanordeste.context_processors import (EnterpriseExtraContext,
+                                                  enterprise_proc)
 
-def home(request):
+from esperancanordeste.core.models import (Order, Step, Institutional,
+                                           Timeline, PhotoInstitutional)
+from esperancanordeste.core.forms import ContactForm
+
+
+class HomeListView(EnterpriseExtraContext,  generic.ListView):
+    model = Step
+    template_name = 'home.html'
+
+    # def get_queryset(self, **kwargs):
+    #     search = self.request.GET.get('search', '')
+    #     if search:
+    #         obj_lst = Entry.published.filter(Q(title__icontains=search) |
+    #                                          Q(created__icontains=search) |
+    #                                          Q(body__icontains=search))
+    #     else:
+    #         obj_lst = Entry.published.all()
+    #     return obj_lst
+
+    def get_context_data(self, **kwargs):
+        context = super(HomeListView, self).get_context_data(**kwargs)
+        # search = self.request.GET.get('search', '')
+        # context['search'] = search
+        context['step_list'] = Step.objects.all()
+        return context
+
+
+def institutional(request):
+    context = {}
+    context['object'] = get_object_or_404(Institutional, pk=1)
+    context['timeline_list'] = Timeline.objects.all()
+    context['photos_list'] = PhotoInstitutional.objects.all()
+
+    return render(request, 'institutional.html', context,
+                  context_instance=RequestContext(request,
+                                                  processors=[enterprise_proc]
+                                                  ))
+
+
+def contact(request):
     context = {}
 
-    return render(request, 'index.html', context)
+    # contact
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.send_mail()
+            context['contact_success'] = True
+    else:
+        form = ContactForm()
+
+    context['contact_form'] = form
+
+    return render(request, 'contact.html', context,
+                  context_instance=RequestContext(request,
+                                                  processors=[enterprise_proc]
+                                                  ))
+
+
+def order(request):
+    context = {}
+    context['object'] = get_object_or_404(Order, pk=1)
+
+    return render(request, 'order.html', context,
+                  context_instance=RequestContext(request,
+                                                  processors=[enterprise_proc]
+                                                  ))
+
+
+def estimate(request):
+    context = {}
+
+    return render(request, 'estimate.html', context,
+                  context_instance=RequestContext(request,
+                                                  processors=[enterprise_proc]
+                                                  ))
