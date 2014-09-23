@@ -4,8 +4,8 @@ from django.contrib.admin.options import TabularInline, StackedInline
 
 from esperancanordeste.core.models import (Enterprise, Social, SocialLogo,
                                            Order, Step, Institutional,
-                                           Timeline, PhotoInstitutional)
-from esperancanordeste.core.forms import (TimelineForm)
+                                           Timeline, PhotoInstitutional,
+                                           Brand, Partner)
 
 
 class SocialLogoInline(TabularInline):
@@ -28,7 +28,7 @@ class EnterpriseAdmin(admin.ModelAdmin):
 
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('admin_body',)
-    search_fields = ('admin_body',)
+    search_fields = ('body',)
 
 
 class StepAdmin(admin.ModelAdmin):
@@ -39,7 +39,6 @@ class StepAdmin(admin.ModelAdmin):
 class TimelineInline(StackedInline):
     model = Timeline
     extra = 1
-    form = TimelineForm
 
 
 class PhotoInstitutionalInline(StackedInline):
@@ -49,8 +48,24 @@ class PhotoInstitutionalInline(StackedInline):
 
 class InstitutionalAdmin(admin.ModelAdmin):
     list_display = ('admin_description',)
-    search_fields = ('admin_description',)
+    search_fields = ('description',)
     inlines = [TimelineInline, PhotoInstitutionalInline]
+
+
+class PartnerAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    search_fields = ('name', 'category__name')
+
+
+class PartnerInline(StackedInline):
+    model = Partner
+    extra = 1
+
+
+class BrandAdmin(admin.ModelAdmin):
+    list_display = ('admin_description',)
+    search_fields = ('description',)
+    inlines = [PartnerInline]
 
 
 admin.site.register(Social, SocialAdmin)
@@ -58,3 +73,5 @@ admin.site.register(Enterprise, EnterpriseAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Step, StepAdmin)
 admin.site.register(Institutional, InstitutionalAdmin)
+admin.site.register(Partner, PartnerAdmin)
+admin.site.register(Brand, BrandAdmin)

@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% load thumbnail %}
+
+{% block extra_css %}
+
+  <link href="{{ STATIC_URL }}isotope/css/style.css" rel="stylesheet">
+
+{% endblock extra_css %}
+
+{% block nav_brand %} active{% endblock %}
+
+{% block content %}
+
+    <!-- Wrapper -->
+    <div class="wrapper">
+
+      <!-- Topic Header -->
+      <div class="topic brand">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-4">
+              <h3>Marcas</h3>
+            </div>
+            <!--
+            <div class="col-sm-8">
+              <ol class="breadcrumb pull-right hidden-xs">
+                <li><a href="index.html">Home</a></li>
+                <li class="active">Contact Us</li>
+              </ol>
+            </div>
+            -->
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            {% for b in object_list %}
+              {% autoescape off %}
+              <p>{{ b.description|linebreaks|cut:"../../../.." }}<br><br></p>
+              {% endautoescape %}
+            {% endfor %}
+            <p><center>
+              <div class="pagination-example">
+                <ul class="pagination" id="filters">
+                  <li><a href="#" data-filter=".A">A</a></li>
+                  <li><a href="#" data-filter=".B">B</a></li>
+                  <li><a href="#" data-filter=".C">C</a></li>
+                  <li><a href="#" data-filter=".D">D</a></li>
+                  <li><a href="#" data-filter=".E">E</a></li>
+                  <li><a href="#" data-filter=".F">F</a></li>
+                  <li><a href="#" data-filter=".G">G</a></li>
+                  <li><a href="#" data-filter=".H">H</a></li>
+                  <li><a href="#" data-filter=".I">I</a></li>
+                  <li><a href="#" data-filter=".J">J</a></li>
+                  <li><a href="#" data-filter=".K">K</a></li>
+                  <li><a href="#" data-filter=".L">L</a></li>
+                  <li><a href="#" data-filter=".M">M</a></li>
+                  <li><a href="#" data-filter=".N">N</a></li>
+                  <li><a href="#" data-filter=".O">O</a></li>
+                  <li><a href="#" data-filter=".P">P</a></li>
+                  <li><a href="#" data-filter=".Q">Q</a></li>
+                  <li><a href="#" data-filter=".R">R</a></li>
+                  <li><a href="#" data-filter=".S">S</a></li>
+                  <li><a href="#" data-filter=".T">T</a></li>
+                  <li><a href="#" data-filter=".U">U</a></li>
+                  <li><a href="#" data-filter=".V">V</a></li>
+                  <li><a href="#" data-filter=".W">W</a></li>
+                  <li><a href="#" data-filter=".Y">Y</a></li>
+                  <li><a href="#" data-filter=".Z">Z</a></li>
+                </ul>
+              </div>
+            </center></p>
+          </div>
+        </div> <!-- / .row -->
+
+        <div class="row">
+          <div class="col-sm-3">
+            <!-- Categories -->
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                Categorias
+              </div>
+              <div class="panel-body">
+                <ul id="filters">
+                  {% for c in category_list %}
+                  <li><a href="#" data-filter=".{{ c.slug }}">{{ c.name }}</a></li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-9">
+            <div class="row" id="isotope-container">
+              {% for p in partner_list %}
+                <div class="col-sm-6 col-md-6 col-lg-4 isotope-item {{ p.name|first }} {% for cat in p.category.all %}{{ cat.slug }} {% endfor %}">
+                  <div class="portfolio-item">
+                    <div class="portfolio-thumbnail">
+                      {% thumbnail p.image "227x152" crop="center" format="PNG" as im %}
+                        <img src="{{ im.url }}" alt="{{ p.name }}" class="img-responsive">
+                      {% empty %}
+                        <p>Sem Imagem</p>
+                      {% endthumbnail %}
+                      <div class="mask">
+                        <p>
+                          <a href="{{ p.image.url }}" data-lightbox="template_showcase"><i class="fa fa-search-plus fa-2x"></i></a>
+                        </p>
+                      </div>
+                    </div>
+                  </div> <!-- / .portfolio-item -->
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div> <!-- / .row -->
+      </div> <!-- / .container -->
+
+    </div> <!-- / .wrapper -->
+
+{% endblock content %}
+
+{% block extra_js %}
+
+    <script src="{{ STATIC_URL }}isotope/js/jquery.isotope.min.js"></script>
+    <script src="{{ STATIC_URL }}js/portfolio.js"></script>
+
+{% endblock extra_js %}

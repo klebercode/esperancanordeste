@@ -32,11 +32,11 @@
             <h3 class="headline first-child">
               <span>Instruções para recebimento do seu pedido</span>
             </h3>
-            <p>
+            {% for o in order_list %}
               {% autoescape off %}
-              <p>{{ object.body|linebreaks|cut:"../../../.." }}</p>
+              <p>{{ o.body|linebreaks|cut:"../../../.." }}</p>
               {% endautoescape %}
-            </p>
+            {% endfor %}
           </div>
         </div> <!-- / .row -->
       </div> <!-- / .container -->

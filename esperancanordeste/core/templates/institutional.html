@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load thumbnail %}
+
 {% block nav_institutional %} active{% endblock %}
 
 {% block content %}
@@ -27,233 +29,76 @@
       </div>
 
       <div class="container">
-          {% autoescape off %}
-          <p>{{ object.description }}<br><br></p>
-          {% endautoescape %}
+          {% for i in institutional_list %}
+            {% autoescape off %}
+            <p>{{ i.description|linebreaks|cut:"../../../.." }}<br><br></p>
+            {% endautoescape %}
+          {% endfor %}
           <h3 class="headline first-child">
             <span>Linha do Tempo</span>
           </h3>
           <ul class="timeline">
-            {% regroup timeline_list by period|date:"F Y" as timeline_year_month %}
-              {% for year_month in timeline_year_month %}
-                <li>
-                  <div class="timeline-date">
-                    <h4 class="timeline-title">{{ year_month.grouper }}</h4>
-                  </div>
-                </li>
-                {% for item in year_month.list %}
-                  <li class="{% if forloop.counter|divisibleby:2 %}timeline-inverted{% endif %}">
-                    <div class="timeline-badge"></div>
-                    <div class="timeline-panel">
-                      <div class="timeline-heading">
-                        <h4 class="timeline-title">{{ item.title }}</h4>
-                      </div>
-                      <div class="timeline-body">
-                        <p>{{ item.description }}</p>
-                      </div>
-                    </div>
-                  </li>
-                {% endfor %}
-              {% endfor %}
-              <li class="timeline-inverted">
-                <div class="timeline-badge"></div>
-                <div class="timeline-panel">
-                  <div class="timeline-heading">
-                    <h4 class="timeline-title">Mussum ipsum cacilds</h4>
-                  </div>
-                  <div class="timeline-body">
-                    <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
-                    <p>Suco de cevadiss, é um leite divinis, qui tem lupuliz, matis, aguis e fermentis. Interagi no mé, cursus quis, vehicula ac nisi. Aenean vel dui dui. Nullam leo erat, aliquet quis tempus a, posuere ut mi. Ut scelerisque neque et turpis posuere pulvinar pellentesque nibh ullamcorper. Pharetra in mattis molestie, volutpat elementum justo. Aenean ut ante turpis. Pellentesque laoreet mé vel lectus scelerisque interdum cursus velit auctor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac mauris lectus, non scelerisque augue. Aenean justo massa.</p>
-                  </div>
-                </div>
-              </li>
+            {% for item in timeline_list %}
               <li>
+                <div class="timeline-date">
+                  <h4 class="timeline-title">{{ item.period }}</h4>
+                </div>
+              </li>
+              <li class="{% if forloop.counter|divisibleby:2 %}timeline-inverted{% endif %}">
                 <div class="timeline-badge"></div>
                 <div class="timeline-panel">
                   <div class="timeline-heading">
-                    <h4 class="timeline-title">Mussum ipsum cacilds</h4>
+                    <h4 class="timeline-title">{{ item.title }}</h4>
                   </div>
                   <div class="timeline-body">
-                    <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
+                    {% thumbnail item.image "800" crop="center" format="PNG" as im %}
+                      <img src="{{ im.url }}" class="img-responsive">
+                    {% empty %}
+                      <p>Sem Imagem</p>
+                    {% endthumbnail %}
+                    <p>{{ item.description }}</p>
                   </div>
                 </div>
               </li>
-              <li class="timeline-inverted">
-                <div class="timeline-badge"></div>
-                <div class="timeline-panel">
-                  <div class="timeline-heading">
-                    <h4 class="timeline-title">Mussum ipsum cacilds</h4>
-                  </div>
-                  <div class="timeline-body">
-                    <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="timeline-badge"></div>
-                <div class="timeline-panel">
-                  <div class="timeline-heading">
-                    <h4 class="timeline-title">Mussum ipsum cacilds</h4>
-                  </div>
-                  <div class="timeline-body">
-                    <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
-                    <hr>
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
-                        <i class="glyphicon glyphicon-cog"></i> <span class="caret"></span>
-                      </button>
-                      <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="timeline-badge"></div>
-                <div class="timeline-panel">
-                  <div class="timeline-heading">
-                    <h4 class="timeline-title">Mussum ipsum cacilds</h4>
-                  </div>
-                  <div class="timeline-body">
-                    <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
-                  </div>
-                </div>
-              </li>
-              <li class="timeline-inverted">
-                <div class="timeline-badge"></div>
-                <div class="timeline-panel">
-                  <div class="timeline-heading">
-                    <h4 class="timeline-title">Mussum ipsum cacilds</h4>
-                  </div>
-                  <div class="timeline-body">
-                    <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
-                  </div>
-                </div>
-              </li>
+            {% endfor %}
           </ul> <!-- / .timeline -->
 
           <!-- begin: institutional-gallery  -->
           <div class="institutional-gallery">
             <div id="owl-institutional" class="owl-carousel owl-theme">
+              {% for photo in photo_list %}
               <div class="item">
-                <a href="#" data-toggle="modal" data-target=".pop-up-1">
-                  <img src="http://placehold.it/160x130/cccccc/FFFFFF">
+                <a href="#" data-toggle="modal" data-target=".pop-up-{{ forloop.counter }}">
+                  {% thumbnail photo.image "160x128" crop="center" format="PNG" as im %}
+                    <img src="{{ im.url }}" class="img-responsive">
+                  {% empty %}
+                    <p>Sem Imagem</p>
+                  {% endthumbnail %}
                 </a>
               </div>
-              <div class="item">
-                <a href="#" data-toggle="modal" data-target=".pop-up-1">
-                  <img src="http://placehold.it/160x130/cccccc/FFFFFF">
-                </a>
-              </div>
-              <div class="item">
-                <a href="#" data-toggle="modal" data-target=".pop-up-1">
-                  <img src="http://placehold.it/160x130/cccccc/FFFFFF">
-                </a>
-              </div>
-              <div class="item">
-                <a href="#" data-toggle="modal" data-target=".pop-up-1">
-                  <img src="http://placehold.it/160x130/cccccc/FFFFFF">
-                </a>
-              </div>
-              <div class="item">
-                <a href="#" data-toggle="modal" data-target=".pop-up-1">
-                  <img src="http://placehold.it/160x130/cccccc/FFFFFF">
-                </a>
-              </div>
-              <div class="item">
-                <a href="#" data-toggle="modal" data-target=".pop-up-1">
-                  <img src="http://placehold.it/160x130/cccccc/FFFFFF">
-                </a>
-              </div>
-              <div class="item">
-                <a href="#" data-toggle="modal" data-target=".pop-up-1">
-                  <img src="http://placehold.it/160x130/cccccc/FFFFFF">
-                </a>
-              </div>
-              <div class="item">
-                <a href="#" data-toggle="modal" data-target=".pop-up-1">
-                  <img src="http://placehold.it/160x130/cccccc/FFFFFF">
-                </a>
-              </div>
-              <div class="item">
-                <a href="#" data-toggle="modal" data-target=".pop-up-1">
-                  <img src="http://placehold.it/160x130/cccccc/FFFFFF">
-                </a>
-              </div>
-              <div class="item">
-                <a href="#" data-toggle="modal" data-target=".pop-up-1">
-                  <img src="http://placehold.it/160x130/cccccc/FFFFFF">
-                </a>
-              </div>
-              <div class="item">
-                <a href="#" data-toggle="modal" data-target=".pop-up-1">
-                  <img src="http://placehold.it/160x130/cccccc/FFFFFF">
-                </a>
-              </div>
-              <div class="item">
-                <a href="#" data-toggle="modal" data-target=".pop-up-1">
-                  <img src="http://placehold.it/160x130/cccccc/FFFFFF">
-                </a>
-              </div>
-              <div class="item">
-                <a href="#" data-toggle="modal" data-target=".pop-up-1">
-                  <img src="http://placehold.it/160x130/cccccc/FFFFFF">
-                </a>
-              </div>
-              <div class="item">
-                <a href="#" data-toggle="modal" data-target=".pop-up-1">
-                  <img src="http://placehold.it/160x130/cccccc/FFFFFF">
-                </a>
-              </div>
-              <div class="item">
-                <a href="#" data-toggle="modal" data-target=".pop-up-1">
-                  <img src="http://placehold.it/160x130/cccccc/FFFFFF">
-                </a>
-              </div>
-              <div class="item">
-                <a href="#" data-toggle="modal" data-target=".pop-up-1">
-                  <img src="http://placehold.it/160x130/cccccc/FFFFFF">
-                </a>
-              </div>
+              {% endfor %}
             </div>
           </div>
 
           <!--  Modal content for the mixer image example -->
-          <div class="modal fade pop-up-1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel-1" aria-hidden="true">
+          {% for photo in photo_list %}
+          <div class="modal fade pop-up-{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel-{{ forloop.counter }}" aria-hidden="true">
             <div class="modal-dialog modal-lg">
               <div class="modal-content">
 
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                  <h4 class="modal-title" id="myLargeModalLabel-1">Title photo</h4>
+                  <h4 class="modal-title" id="myLargeModalLabel-{{ forloop.counter }}">{{ photo.title }}</h4>
                 </div>
                 <div class="modal-body">
-                <img src="http://placehold.it/600x420/cccccc/FFFFFF" class="img-responsive img-rounded center-block" alt="">
+                  <img src="{{ photo.image.url }}" class="img-responsive img-rounded center-block" alt="{{ photo.title }}">
+                  <p>{{ photo.description }}</p>
                 </div>
               </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
           </div><!-- /.modal mixer image -->
+          {% endfor %}
 
-         <!--  Modal content for the lion image example -->
-          <div class="modal fade pop-up-2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel-2" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-              <div class="modal-content">
-
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                  <h4 class="modal-title" id="myLargeModalLabel-2">Lion</h4>
-                </div>
-                <div class="modal-body">
-                <img src="http://placehold.it/160x130/cccccc/FFFFFF" class="img-responsive img-rounded center-block" alt="">
-                </div>
-              </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-          </div><!-- /.modal mixer image -->
           <!-- end: institutional-gallery -->
       </div> <!-- / .container -->
 

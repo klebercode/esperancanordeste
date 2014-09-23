@@ -4,13 +4,19 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.template.defaultfilters import slugify
 
+from sorl.thumbnail import ImageField
 from tinymce import models as tinymce_models
+
+import datetime
+now = datetime.datetime.now()
 
 try:
     from PIL import Image, ImageOps
 except ImportError:
     import Image
     import ImageOps
+
+from esperancanordeste.catalog.models import Category
 
 
 STATE_CHOICES = (
@@ -203,30 +209,18 @@ class Timeline(models.Model):
     title = models.CharField(_(u'Título'), max_length=50)
     description = models.TextField(_(u'Descrição'),
                                    help_text='Uma breve história')
-    image = models.ImageField(_(u'Imagem'), upload_to='institutional/timeline',
-                              blank=True, null=True)
-    period = models.DateField(_(u'Período'))
+    image = ImageField(_(u'Imagem'), upload_to='institutional/timeline',
+                       blank=True, null=True)
+    period = models.CharField(_(u'Ano'), max_length=4, unique=True,
+                              help_text=now.year)
 
     def admin_image(self):
         return '<img src="%s" width="200" />' % self.image.url
     admin_image.allow_tags = True
     admin_image.short_description = 'Imagem'
 
-    # def save(self, *args, **kwargs):
-    #     if not self.id and not self.image:
-    #         return
-
-    #     super(Timeline, self).save(*args, **kwargs)
-
-    #     image = Image.open(self.image)
-    #     size = (115, 100)
-    #     image = ImageOps.fit(image, size, Image.ANTIALIAS)
-    #     image.save(self.image.path, 'JPEG', quality=99)
-
     def __unicode__(self):
-        return "%s (%s/%s)" % (unicode(self.title),
-                               self.period.strftime('%m'),
-                               self.period.year)
+        return "%s (%s)" % (unicode(self.title), self.period)
 
     class Meta:
         verbose_name = _(u'Linha do Tempo')
@@ -240,10 +234,10 @@ class PhotoInstitutional(models.Model):
     title = models.CharField(_(u'Título da Imagem'), max_length=50)
     description = models.CharField(_(u'Descrição'), max_length=200,
                                    blank=True, null=True)
-    image = models.ImageField(_(u'Imagem'), upload_to='institutional/photos')
+    image = ImageField(_(u'Imagem'), upload_to='institutional/photos')
 
     def admin_image(self):
-        return '<img src="%s" width="200" />' % self.image.url
+        return '<img src="%s" width="160" />' % self.image.url
     admin_image.allow_tags = True
     admin_image.short_description = 'Imagem'
 
@@ -253,3 +247,49 @@ class PhotoInstitutional(models.Model):
     class Meta:
         verbose_name = _(u'Foto')
         verbose_name_plural = _(u'Fotos')
+
+
+class Brand(models.Model):
+    page = models.CharField(_(u'Nome da página'), max_length=20,
+                            default='Marcas', editable=False)
+    description = tinymce_models.HTMLField(_(u'Descrição da página'))
+
+    def admin_description(self):
+        return self.description
+    admin_description.allow_tags = True
+    admin_description.short_description = _(u'Descrição da página')
+
+    def __unicode__(self):
+        return unicode(self.page)
+
+    class Meta:
+        verbose_name = _(u'Marca')
+        verbose_name_plural = _(u'Marcas')
+
+
+class Partner(models.Model):
+    brand = models.ForeignKey('Brand', verbose_name=_(u'Página'), default=1,
+                              blank=True, null=True)
+    name = models.CharField(_(u'Nome'), max_length=30)
+    image = ImageField(_(u'Imagem'), upload_to='brand')
+    category = models.ManyToManyField(Category, verbose_name='Categorias')
+
+    def admin_image(self):
+        return '<img src="%s" width="200" />' % self.image.url
+    admin_image.allow_tags = True
+    admin_image.short_description = 'Imagem'
+
+    def save(self, *args, **kwargs):
+        check = Brand.objects.all()[:1]
+        if not check:
+            b = Brand(description=u"Aguardando conteúdo...")
+            b.save()
+            self.brand = b
+        super(Partner, self).save(*args, **kwargs)
+
+    def __unicode__(self):
+        return unicode(self.name)
+
+    class Meta:
+        verbose_name = _(u'Parceiro')
+        verbose_name_plural = _(u'Parceiros')

@@ -6487,6 +6487,13 @@ a.carousel-arrow-next {
   -o-background-size: cover;
   background-size: cover;
 }
+.topic.brand {
+  background: url('../img/header-brand.jpg') no-repeat center bottom fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
 /* ===== Headline ===== */
 .headline {
   display: block;
@@ -6987,7 +6994,7 @@ body {
   top: 0;
   height: 100%;
   background: #2babcf;
-  background: rgba(88, 185, 82, 0.5);
+  background: rgba(2, 95, 175, 0.5);
   color: white;
   opacity: 0;
   -webkit-transition: opacity 300ms;
@@ -7009,7 +7016,7 @@ body {
   top: 50%;
   margin-top: -14px;
   left: 50%;
-  margin-left: -33px;
+  margin-left: -15px;
 }
 .portfolio-item > .portfolio-description {
   padding: 0 5px;

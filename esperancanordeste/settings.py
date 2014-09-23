@@ -59,6 +59,7 @@ INSTALLED_APPS = (
 
     # my apps
     'esperancanordeste.core',
+    'esperancanordeste.catalog',
 )
 
 MIDDLEWARE_CLASSES = (

@@ -2,7 +2,7 @@ from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.conf.urls.static import static
 
-from esperancanordeste.core.views import HomeListView
+from esperancanordeste.core.views import (HomeListView, BrandListView)
 
 from django.contrib import admin
 admin.autodiscover()
@@ -17,6 +17,7 @@ urlpatterns = patterns(
     url(r'^pedido/', 'esperancanordeste.core.views.order', name='order'),
     url(r'^orcamento/', 'esperancanordeste.core.views.estimate',
         name='estimate'),
+    url(r'^marcas/', BrandListView.as_view(), name='brand'),
 
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', include(admin.site.urls)),
