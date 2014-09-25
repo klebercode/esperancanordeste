@@ -5,12 +5,41 @@ from django.utils.translation import ugettext_lazy as _
 from django.template.defaultfilters import slugify
 
 from sorl.thumbnail import ImageField
+from esperancanordeste.fields import ContentTypeRestrictedFileField
 
 try:
     from PIL import Image, ImageOps
 except ImportError:
     import Image
     import ImageOps
+
+
+class Catalog(models.Model):
+    created = models.DateTimeField(_(u'Data de Envio'), auto_now_add=True)
+    name = models.CharField(_(u'Nome para o Catálogo'), max_length=50,
+                            help_text='Catálogo 2014')
+    attach = ContentTypeRestrictedFileField(
+        _(u'Arquivo'),
+        upload_to=u'catalog',
+        content_types=['application/pdf', 'application/zip'],
+        max_upload_size=5242880,
+        help_text='Selecione um arquivo')
+
+    def admin_attach(self):
+        if self.attach:
+            return "<a href='%s'>Baixar</a>" % self.attach.url
+        else:
+            return "Nenhum arquivo encontrado."
+    admin_attach.allow_tags = True
+    admin_attach.short_description = _(u'Arquivo')
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _(u'Catálogo')
+        verbose_name_plural = _(u'Catálogos')
+        ordering = ['created']
 
 
 class Category(models.Model):

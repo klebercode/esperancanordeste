@@ -58,6 +58,11 @@
                 </ul>
               </div>
             </div>
+            <div>
+              {% for b in catalog_list %}
+                <a href="{{ b.attach.url }}" class="btn btn-lg btn-blue col-sm-12"><h5>Baixe o catálogo completo</h5></a>
+              {% endfor %}
+            </div>
           </div>
           <div class="col-sm-9">
             <div class="row">

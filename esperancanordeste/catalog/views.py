@@ -6,7 +6,7 @@ from django.views import generic
 
 from esperancanordeste.context_processors import EnterpriseExtraContext
 
-from esperancanordeste.catalog.models import Category, Product
+from esperancanordeste.catalog.models import Catalog, Category, Product
 
 
 class ProductListView(EnterpriseExtraContext,  generic.ListView):
@@ -30,6 +30,7 @@ class ProductListView(EnterpriseExtraContext,  generic.ListView):
         search = self.request.GET.get('search', '')
         context['search'] = search
         context['category_list'] = Category.objects.all()
+        context['catalog_list'] = Catalog.objects.all()[:1]
         return context
 
 
