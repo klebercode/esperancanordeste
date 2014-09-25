@@ -1,0 +1,28 @@
+{% extends "catalog/catalog_base.html" %}
+
+{% load thumbnail %}
+
+{% block body %}
+
+  {% for p in object_list %}
+    <div class="col-sm-6 col-md-6 col-lg-4">
+      <div class="portfolio-item">
+        <div class="portfolio-thumbnail">
+          {% thumbnail p.image "227x152" crop="center" format="PNG" as im %}
+            <img src="{{ im.url }}" alt="{{ p.name }}" class="img-responsive">
+          {% empty %}
+            <p>Sem Imagem</p>
+          {% endthumbnail %}
+          <div class="mask">
+            <p>
+              <a href="{{ p.get_absolute_url }}"><i class="fa fa-plus-circle fa-2x"></i></a>
+            </p>
+          </div>
+        </div>
+      </div> <!-- / .portfolio-item -->
+    </div>
+  {% empty %}
+    <p>Nenhum produto encontrado</p>
+  {% endfor %}
+
+{% endblock body %}

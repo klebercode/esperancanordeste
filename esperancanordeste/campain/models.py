@@ -14,19 +14,19 @@ from esperancanordeste.current_user import get_current_user
 
 
 class EntryManager(models.Manager):
-    '''
+    """
     Esse manager carrega todos os objetos do model Entry sem filtros
-    '''
+    """
     def get_queryset(self):
         return super(EntryManager,
                      self).get_queryset().all()
 
 
 class PublishedManager(models.Manager):
-    '''
+    """
     Esse manager carrega todos os objetos do model Entry que estao marcados
     como publish=True
-    '''
+    """
     def get_queryset(self):
         return super(PublishedManager,
                      self).get_queryset().filter(publish=True)

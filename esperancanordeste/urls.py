@@ -20,6 +20,8 @@ urlpatterns = patterns(
     url(r'^marcas/', BrandListView.as_view(), name='brand'),
     url(r'^campanhas/', include('esperancanordeste.campain.urls',
         namespace='campain')),
+    url(r'^catalogo/', include('esperancanordeste.catalog.urls',
+        namespace='catalog')),
 
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', include(admin.site.urls)),

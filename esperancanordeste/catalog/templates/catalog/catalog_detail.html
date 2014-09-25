@@ -1,0 +1,17 @@
+{% extends "catalog/catalog_base.html" %}
+
+{% block body %}
+
+  {% for p in object_list %}
+    <div class="col-sm-12">
+      <h3><span>{{ p.category }} / {{ p.name }}</span></h3>
+      <br>
+      <p><img src="{{ p.image.url }}" class="img-responsive" alt="{{ p.name }}"></p>
+      <br>
+      <p>{{ p.description }}</p>
+    </div>
+  {% empty %}
+    <p>Nenhum produto encontrado</p>
+  {% endfor %}
+
+{% endblock body %}

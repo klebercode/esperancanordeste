@@ -97,17 +97,17 @@
       <div class="collapse navbar-collapse">
         <div class="container menu-two">
           <ul class="nav navbar-nav col-sm-9">
-            <li class="hidden-sm">
+            <li class="hidden-sm{% block nav_category %}{% endblock %}">
               <a href="#">Categoria de Produtos</a>
             </li>
             <li class="hidden-sm{% block nav_brand %}{% endblock %}">
               <a href="{% url 'brand' %}">Marcas</a>
             </li>
-            <li class="hidden-sm">
+            <li class="hidden-sm{% block nav_promotion %}{% endblock %}">
               <a href="#">Promoções</a>
             </li>
-            <li class="hidden-sm">
-              <a href="#">Catálogo de Produtos</a>
+            <li class="hidden-sm{% block nav_catalog %}{% endblock %}">
+              <a href="{% url 'catalog:home' %}">Catálogo de Produtos</a>
             </li>
           </ul>
           <div class="col-sm-3 search">

@@ -1,9 +1,6 @@
 {% extends "base.html" %}
 
-{% load thumbnail %}
-{% load embed_video_tags %}
-
-{% block nav_campain %} active{% endblock %}
+{% block nav_catalog %} active{% endblock %}
 
 {% block content %}
 
@@ -11,11 +8,11 @@
     <div class="wrapper">
 
       <!-- Topic Header -->
-      <div class="topic campain">
+      <div class="topic catalog">
         <div class="container">
           <div class="row">
             <div class="col-sm-12">
-              <h3>Campanhas <small>{% if search %}busca por "{{ search }}"{% endif %}</small></h3>
+              <h3>Catálogo de Protudos <small>{% if search %}busca por "{{ search }}"{% endif %}</small></h3>
             </div>
             <!--
             <div class="col-sm-8">
@@ -50,54 +47,26 @@
             <!-- Categories -->
             <div class="panel panel-default">
               <div class="panel-heading">
-                Marcações
+                Categorias
               </div>
               <div class="panel-body">
                 <ul>
-                  <li><a href="{% url 'campain:home' %}">TODAS</a></li>
-                  {% for tag in tag_list %}
-                    <li><a href="{% url 'campain:tag_list' tag.slug %}">{{ tag }}</a></li>
+                  <li><a href="{% url 'catalog:home' %}">TODAS</a></li>
+                  {% for c in category_list %}
+                  <li><a href="{% url 'catalog:category_list' c.slug %}">{{ c.name }}</a></li>
                   {% endfor %}
                 </ul>
               </div>
             </div>
-
-            <div class="clearfix"></div>
           </div>
-
           <div class="col-sm-9">
-            <!-- Blog Post -->
-            {% for object in object_list %}
-            <div class="blog">
-              <div class="blog-desc">
-                <h3>
-                  <a href="{{ object.get_absolute_url }}">{{ object.title }}</a>
-                </h3>
-                <hr>
-                <p class="text-muted">{{ object.created }}</p>
-                {% autoescape off %}
-                {% block body %}
+            <div class="row">
 
-                {% endblock body %}
-                {% endautoescape %}
-                <a class="btn btn btn-blue" href="#">Leia mais...</a>
-                {% if object.video %}
-                  <div class="video-container">
-                  {% video object.video '100%x420' %}
-                  </div>
-                {% elif object.image %}
-                  <a href="{{ object.get_absolute_url }}"><img class="img-responsive" src="{{ object.image.url }}" alt="{{ object.title }}"></a>
-                {% else %}
-                  <p>Imagem ou vídeo não encontrado.</p>
-                {% endif %}
-              </div>
+              {% block body %}
+
+              {% endblock body %}
+
             </div>
-            {% empty %}
-
-            <p>Nenhuma campanha encontrada.</p>
-
-            {% endfor %}
-
           </div>
         </div> <!-- / .row -->
 
