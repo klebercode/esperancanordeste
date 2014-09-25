@@ -93,20 +93,8 @@ class BrandListView(EnterpriseExtraContext,  generic.ListView):
     template_name = 'brand.html'
     paginate_by = 10
 
-    # def get_queryset(self, **kwargs):
-    #     search = self.request.GET.get('search', '')
-    #     if search:
-    #         obj_lst = Entry.published.filter(Q(title__icontains=search) |
-    #                                          Q(created__icontains=search) |
-    #                                          Q(body__icontains=search))
-    #     else:
-    #         obj_lst = Entry.published.all()
-    #     return obj_lst
-
     def get_context_data(self, **kwargs):
         context = super(BrandListView, self).get_context_data(**kwargs)
-        # search = self.request.GET.get('search', '')
-        # context['search'] = search
         context['category_list'] = Category.objects.all()
         context['partner_list'] = Partner.objects.all()
         print context

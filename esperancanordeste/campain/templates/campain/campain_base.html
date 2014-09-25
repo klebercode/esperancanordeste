@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% load thumbnail %}
+{% load embed_video_tags %}
+
+{% block nav_campain %} active{% endblock %}
+
+{% block content %}
+
+    <!-- Wrapper -->
+    <div class="wrapper">
+
+      <!-- Topic Header -->
+      <div class="topic campain">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-4">
+              <h3>Campanhas <small>{% if search %}busca por "{{ search }}"{% endif %}</small></h3>
+            </div>
+            <!--
+            <div class="col-sm-8">
+              <ol class="breadcrumb pull-right hidden-xs">
+                <li><a href="index.html">Home</a></li>
+                <li class="active">Contact Us</li>
+              </ol>
+            </div>
+            -->
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-3">
+            <!-- Search -->
+            <form role="form" action="." method="get">
+              <div class="well">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="input-group">
+                      <input id="search" name="search" type="text" class="form-control" placeholder="Buscar...">
+                      <span class="input-group-btn">
+                        <button class="btn btn-blue" type="submit"><i class="fa fa-search"></i></button>
+                      </span>
+                    </div><!-- /input-group -->
+                  </div><!-- /.col-lg-6 -->
+                </div><!-- /.row -->
+              </div>
+            </form>
+            <!-- Categories -->
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                Marcações
+              </div>
+              <div class="panel-body">
+                <ul>
+                  <li><a href="{% url 'campain:home' %}">TODAS</a></li>
+                  {% for tag in tag_list %}
+                    <li><a href="{% url 'campain:tag_list' tag.slug %}">{{ tag }}</a></li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+
+            <div class="clearfix"></div>
+          </div>
+
+          <div class="col-sm-9">
+            <!-- Blog Post -->
+            {% for object in object_list %}
+            <div class="blog">
+              <div class="blog-desc">
+                <h3>
+                  <a href="{{ object.get_absolute_url }}">{{ object.title }}</a>
+                </h3>
+                <hr>
+                <p class="text-muted">{{ object.created }}</p>
+                {% autoescape off %}
+                {% block body %}
+
+                {% endblock body %}
+                {% endautoescape %}
+                <a class="btn btn btn-blue" href="#">Leia mais...</a>
+                {% if object.video %}
+                  <div class="video-container">
+                  {% video object.video '100%x420' %}
+                  </div>
+                {% elif object.image %}
+                  <a href="{{ object.get_absolute_url }}"><img class="img-responsive" src="{{ object.image.url }}" alt="{{ object.title }}"></a>
+                {% else %}
+                  <p>Imagem ou vídeo não encontrado.</p>
+                {% endif %}
+              </div>
+            </div>
+            {% empty %}
+
+            <p>Nenhuma campanha encontrada.</p>
+
+            {% endfor %}
+
+            {% include "paginator.html" %}
+
+          </div>
+
+        </div> <!-- / .row -->
+      </div> <!-- / .container -->
+
+    </div> <!-- / .wrapper -->
+
+{% endblock content %}

@@ -18,6 +18,8 @@ urlpatterns = patterns(
     url(r'^orcamento/', 'esperancanordeste.core.views.estimate',
         name='estimate'),
     url(r'^marcas/', BrandListView.as_view(), name='brand'),
+    url(r'^campanhas/', include('esperancanordeste.campain.urls',
+        namespace='campain')),
 
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', include(admin.site.urls)),

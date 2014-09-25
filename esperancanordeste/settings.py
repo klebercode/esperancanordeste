@@ -56,10 +56,12 @@ INSTALLED_APPS = (
     'sorl.thumbnail',
     'mce_filebrowser',
     'taggit',
+    'embed_video',
 
     # my apps
     'esperancanordeste.core',
     'esperancanordeste.catalog',
+    'esperancanordeste.campain',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -69,6 +71,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'esperancanordeste.current_user.CurrentUserMiddleware',
 )
 
 ROOT_URLCONF = 'esperancanordeste.urls'

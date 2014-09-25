@@ -1,0 +1,7 @@
+{% extends "campain/campain_base.html" %}
+
+{% block body %}
+
+  <p>{{ object.body|striptags|truncatewords_html:70 }}<br><br></p>
+
+{% endblock body %}
