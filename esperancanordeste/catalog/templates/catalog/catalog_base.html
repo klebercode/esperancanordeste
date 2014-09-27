@@ -60,7 +60,9 @@
             </div>
             <div>
               {% for b in catalog_list %}
-                <a href="{{ b.attach.url }}" class="btn btn-lg btn-blue col-sm-12"><h5>Baixe o catálogo completo</h5></a>
+                <a href="{{ b.attach.url }}" class="btn btn-lg btn-blue col-sm-12" target="_blank">
+                  <h5>Baixe o catálogo completo</h5>
+                </a>
               {% endfor %}
             </div>
           </div>
