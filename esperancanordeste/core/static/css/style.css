@@ -6509,6 +6509,13 @@ a.carousel-arrow-next {
   -o-background-size: cover;
   background-size: cover;
 }
+.topic.sale {
+  background: url('../img/header-sale.jpg') no-repeat center bottom fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
 /* ===== Headline ===== */
 .headline {
   display: block;
@@ -8051,4 +8058,9 @@ footer .social img {
     text-align: center;
     -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+}
+
+.select_email_to {
+  font-weight: normal;
+  cursor: pointer;
 }

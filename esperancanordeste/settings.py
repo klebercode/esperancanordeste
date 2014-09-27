@@ -62,6 +62,7 @@ INSTALLED_APPS = (
     'esperancanordeste.core',
     'esperancanordeste.catalog',
     'esperancanordeste.campain',
+    'esperancanordeste.sale',
 )
 
 MIDDLEWARE_CLASSES = (

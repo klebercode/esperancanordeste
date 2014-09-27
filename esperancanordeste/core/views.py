@@ -79,6 +79,8 @@ def order(request):
                                                   ))
 
 
+# TODO: depende do cliente para definir os campos
+# ticket id: #4411428
 def estimate(request):
     context = {}
 

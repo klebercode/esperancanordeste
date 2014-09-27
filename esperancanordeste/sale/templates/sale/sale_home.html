@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block nav_sale %} active{% endblock %}
+
+{% block content %}
+
+    <!-- Wrapper -->
+    <div class="wrapper">
+
+      <!-- Topic Header -->
+      <div class="topic sale">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-12">
+              <h3>Área de Atuação
+              <small>
+                {% if segment or state %}busca por
+                {% if segment %} "{{ segment }}"{% endif %}
+                {% if state and segment %} em{% endif %}
+                {% if state %} "{{ state }}"{% endif %}
+                {% endif %}
+              </small></h3>
+            </div>
+            <!--
+            <div class="col-sm-8">
+              <ol class="breadcrumb pull-right hidden-xs">
+                <li><a href="index.html">Home</a></li>
+                <li class="active">Contact Us</li>
+              </ol>
+            </div>
+            -->
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            {% for a in area_list %}
+            <p>{{ a.description }}<br><br></p>
+            {% endfor %}
+            <h3 class="headline first-child"><span>Encontre o seu vendedor</span></h3>
+            <!-- Search -->
+            <form role="form" action="." method="get">
+              <div class="well">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="input-group">
+                      <fieldset class="col-sm-6">
+                        <select id="segment" name="segment" class="form-control">
+                          <option value="" disabled selected>Segmento</option>
+                          {% for seg in segment_list %}
+                          <option value="{{ seg.name }}" {% if segment == seg.name %}selected{% endif %}>{{ seg.name }}</option>
+                          {% endfor %}
+                        </select>
+                      </fieldset>
+                      <fieldset class="col-sm-6">
+                        <select id="state" name="state" class="form-control">
+                          <option value="" disabled selected>Estado</option>
+                          {% for sta in state_list %}
+                          <option value="{{ sta.0 }}" {% if state == sta.0 %}selected{% endif %}>{{ sta.1 }}</option>
+                          {% endfor %}
+                        </select>
+                      </fieldset>
+                      <span class="input-group-btn">
+                        <button class="btn btn-blue" type="submit"><i class="fa fa-search"></i></button>
+                      </span>
+                    </div><!-- /input-group -->
+                  </div><!-- /.col-lg-6 -->
+                </div><!-- /.row -->
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5">
+            <h3 class="headline first-child"><span>Selecione um vendedor</span></h3>
+            {% for s in seller_list %}
+            <div class="row">
+              <label class="col-sm-12 select_email_to">
+                <input class="col-sm-1" id="{{ s.pk }}" name="signal_email_to" type="radio">
+                <div class="well col-sm-11">
+                  <div class="row">
+                    <span class="col-sm-2">
+                      <strong>Nome:</strong>
+                    </span>
+                    <span class="col-sm-10">
+                      {{ s.name }}
+                    </span>
+                  </div>
+                  <div class="row">
+                    <span class="col-sm-2">
+                      <strong>Email:</strong>
+                    </span>
+                    <span class="col-sm-10 email_to">
+                      {% for e in s.email.all %}
+                        {{ e.address }}
+                        {% if not forloop.last %}<br> {% endif %}
+                      {% endfor %}
+                    </span>
+                  </div>
+                  <div class="row">
+                    <span class="col-sm-2">
+                      <strong>Fone:</strong>
+                    </span>
+                    <span class="col-sm-10">
+                      {% for p in s.phone.all %}
+                        {{ p.number }} [{{ p.get_operator_display }}]{% if not forloop.last %}<br> {% endif %}
+                      {% endfor %}
+                    </span>
+                  </div>
+                </div>
+              </label>
+            </div>
+            {% endfor %}
+          </div>
+          <div class="col-sm-7">
+            <h3 class="headline second-child"><span>Envie sua mensagem</span></h3>
+            {% if contact_success %}
+            <p>Mensagem enviada com sucesso.</p>
+            <a href="{% url 'sale:home' %}" class="btn btn-blue">Voltar</a>
+            {% else %}
+            <form method="post" action=".">
+              {% csrf_token %}
+                  <div class="form-group">
+                    <label for="email_to">Para</label>
+                    <input class="form-control" id="id_email_to" name="email_to" placeholder="Para" type="email" readonly="True">
+                  </div>
+              {% for field in contact_form %}
+                {% if not field.name = 'email_to' %}
+                  <div class="form-group">
+                    <label for="{{ field.name }}">{{ field.label }}</label>
+                    {{ field }}
+                    {{ field.errors }}
+                  </div>
+                {% endif %}
+              {% endfor %}
+              <input type="submit" name="enviar" class="btn btn-blue" value="Enviar mensagem">
+            </form>
+            {% endif %}
+          </div>
+        </div> <!-- / .row -->
+      </div> <!-- / .container -->
+
+    </div> <!-- / .wrapper -->
+
+{% endblock content %}
+
+{% block extra_js %}
+
+  <script>
+    $(document).ready(function(){
+
+        $(".select_email_to").click(function(){
+
+            //var email_to=$(this).attr('href').split('=')[1]
+            var email_to=$(this).find('.email_to').text().trim();
+
+            email_to=email_to.replace(/\s+/g, ', ');
+
+            $('#id_email_to').val( email_to );
+
+            return true;
+        });
+    });
+  </script>
+
+{% endblock extra_js %}

@@ -23,7 +23,7 @@ class Catalog(models.Model):
         upload_to=u'catalog',
         content_types=['application/pdf', 'application/zip'],
         max_upload_size=5242880,
-        help_text='Selecione um arquivo')
+        help_text=u'Selecione um arquivo com tamanho máximo de 5MB.')
 
     def admin_attach(self):
         if self.attach:
@@ -39,16 +39,12 @@ class Catalog(models.Model):
     class Meta:
         verbose_name = _(u'Catálogo')
         verbose_name_plural = _(u'Catálogos')
-        ordering = ['created']
+        ordering = ['-created']
 
 
 class Category(models.Model):
     name = models.CharField(_(u'Nome'), max_length=30)
-    slug = models.SlugField(_(u'Slug'), max_length=30, unique=True)
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        super(Category, self).save(*args, **kwargs)
+    slug = models.SlugField(_(u'Link'), max_length=30, unique=True)
 
     def __unicode__(self):
         return unicode(self.name)
@@ -82,7 +78,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, verbose_name=_(u'Categoria'))
     name = models.CharField(_(u'Nome'), max_length=120,
                             help_text='Nome do produto')
-    slug = models.SlugField(_(u'Nome Slug'), max_length=50, unique=True)
+    slug = models.SlugField(_(u'Link'), max_length=50, unique=True)
     description = models.TextField(_(u'Descrição'), max_length=250,
                                    help_text='Descrição do produto')
     image = ImageField(_(u'Imagem'), upload_to=u'product',
