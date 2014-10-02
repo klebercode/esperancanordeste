@@ -24,26 +24,6 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.related.ForeignKey')(default=0, to=orm['sale.Seller']),
                       keep_default=False)
 
-        # # Adding model 'Estimate'
-        db.create_table(u'sale_estimate', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('segment', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sale.Segment'])),
-            ('enterprise', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('cnpj', self.gf('django.db.models.fields.CharField')(max_length=20)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('address', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
-            ('cep', self.gf('django.db.models.fields.CharField')(max_length=9, null=True, blank=True)),
-            ('complement', self.gf('django.db.models.fields.CharField')(max_length=100, null=True, blank=True)),
-            ('district', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('city', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('state', self.gf('django.db.models.fields.CharField')(max_length=2)),
-            ('phone', self.gf('django.db.models.fields.CharField')(max_length=20)),
-            ('email', self.gf('django.db.models.fields.EmailField')(max_length=75)),
-            ('message', self.gf('tinymce.models.HTMLField')()),
-        ))
-        db.send_create_signal(u'sale', ['Estimate'])
-
 
     def backwards(self, orm):
         # Deleting field 'Phone.seller'
