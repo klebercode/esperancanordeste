@@ -40,6 +40,7 @@ ALLOWED_HOSTS = ['.localhost',
 
 INSTALLED_APPS = (
     'grappelli_extensions',
+    'grappelli.dashboard',
     'grappelli',
 
     'django.contrib.admin',
@@ -145,9 +146,11 @@ TINYMCE_DEFAULT_CONFIG = {
 # grappelli
 GRAPPELLI_ADMIN_TITLE = 'OW7 | CMS'
 
-# GRAPPELLI_EXTENSIONS_NAVBAR = 'pmsal.extensions.Navbar'
+GRAPPELLI_EXTENSIONS_NAVBAR = 'esperancanordeste.extensions.Navbar'
 
-# GRAPPELLI_EXTENSIONS_SIDEBAR = 'pmsal.extensions.Sidebar'
+GRAPPELLI_EXTENSIONS_SIDEBAR = 'esperancanordeste.extensions.Sidebar'
+
+GRAPPELLI_INDEX_DASHBOARD = 'esperancanordeste.dashboard.CustomIndexDashboard'
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
