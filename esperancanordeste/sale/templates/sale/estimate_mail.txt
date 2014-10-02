@@ -1,0 +1,15 @@
+Solicitação de orçamento enviada pelo site.
+
+Segmento: {{ segment }}
+Empresa: {{ enterprise }}
+CNPJ: {{ cnpj }}
+Nome: {{ name }}
+Endereço: {{ address }}
+Complemento: {{ complement }}
+Bairro: {{ district }}
+Cidade: {{ city }}
+Estado: {{ state }}
+Fone: {{ phone }}
+E-mail: {{ email }}
+Menssagem:
+{{ message }}

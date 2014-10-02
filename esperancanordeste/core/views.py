@@ -79,17 +79,6 @@ def order(request):
                                                   ))
 
 
-# TODO: depende do cliente para definir os campos
-# ticket id: #4411428
-def estimate(request):
-    context = {}
-
-    return render(request, 'estimate.html', context,
-                  context_instance=RequestContext(request,
-                                                  processors=[enterprise_proc]
-                                                  ))
-
-
 class BrandListView(EnterpriseExtraContext,  generic.ListView):
     queryset = Brand.objects.all()[:1]
     template_name = 'brand.html'

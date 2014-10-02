@@ -53,42 +53,6 @@ class Segment(models.Model):
         ordering = ['name']
 
 
-class Phone(models.Model):
-    operator = models.IntegerField(_(u'Operadora'), choices=OPERATOR_CHOICES)
-    number = models.CharField(_(u'Número'), max_length=20,
-                              help_text='(99) 9999-9999')
-    default = models.BooleanField(_(u'Número principal?'))
-
-    @staticmethod
-    def autocomplete_search_fields():
-        return ("number__icontains", "operator__icontains",)
-
-    def __unicode__(self):
-        return unicode(self.number)
-
-    class Meta:
-        verbose_name = _(u'Fone')
-        verbose_name_plural = _(u'Fones')
-        ordering = ['-default']
-
-
-class Email(models.Model):
-    address = models.EmailField(_(u'Endereço de email'))
-    default = models.BooleanField(_(u'Email principal?'))
-
-    @staticmethod
-    def autocomplete_search_fields():
-        return ("address__icontains",)
-
-    def __unicode__(self):
-        return unicode(self.address)
-
-    class Meta:
-        verbose_name = _(u'Email')
-        verbose_name_plural = _(u'Emails')
-        ordering = ['-default', 'address']
-
-
 class SellerAllManager(models.Manager):
     """
     Esse manager carrega todos os objetos do model Entry sem filtros
@@ -114,8 +78,6 @@ class Seller(models.Model):
     name = models.CharField(_(u'Nome'), max_length=150, unique=True)
     state = models.CharField(_(u'UF'), max_length=2, choices=STATE_CHOICES)
     segment = models.ManyToManyField(Segment, verbose_name=_(u'Segmento'))
-    phone = models.ManyToManyField(Phone, verbose_name=_(u'Fone'))
-    email = models.ManyToManyField(Email, verbose_name=_(u'Email'))
     visible = models.BooleanField(_(u'Visível no site?'), default=True)
 
     objects = SellerAllManager()
@@ -123,15 +85,15 @@ class Seller(models.Model):
 
     def get_phone(self):
         out = []
-        for k in self.phone.all():
-            out.append('%s<br>' % k.number)
+        for k in Phone.objects.filter(seller=self.pk):
+            out.append('%s [%s]<br>' % (k.number, k.get_operator_display()))
         return '\n'.join(out)
     get_phone.allow_tags = True
     get_phone.short_description = _(u'Fones')
 
     def get_email(self):
         out = []
-        for k in self.email.all():
+        for k in Email.objects.filter(seller=self.pk):
             out.append('%s<br>' % k.address)
         return '\n'.join(out)
     get_email.allow_tags = True
@@ -154,3 +116,77 @@ class Seller(models.Model):
         verbose_name = _(u'Vendedor')
         verbose_name_plural = _(u'Vendedores')
         ordering = ['name', 'state']
+
+
+class Phone(models.Model):
+    seller = models.ForeignKey('Seller', verbose_name=_(u'Vendedor'))
+    operator = models.IntegerField(_(u'Operadora'), choices=OPERATOR_CHOICES)
+    number = models.CharField(_(u'Número'), max_length=20,
+                              help_text='(99) 9999-9999')
+    default = models.BooleanField(_(u'Número principal?'))
+
+    @staticmethod
+    def autocomplete_search_fields():
+        return ("number__icontains", "operator__icontains",)
+
+    def __unicode__(self):
+        return unicode(self.number)
+
+    class Meta:
+        verbose_name = _(u'Fone')
+        verbose_name_plural = _(u'Fones')
+        ordering = ['-default']
+
+
+class Email(models.Model):
+    seller = models.ForeignKey('Seller', verbose_name=_(u'Vendedor'))
+    address = models.EmailField(_(u'Endereço de email'))
+    default = models.BooleanField(_(u'Email principal?'))
+
+    @staticmethod
+    def autocomplete_search_fields():
+        return ("address__icontains",)
+
+    def __unicode__(self):
+        return unicode(self.address)
+
+    class Meta:
+        verbose_name = _(u'Email')
+        verbose_name_plural = _(u'Emails')
+        ordering = ['-default', 'address']
+
+
+class Estimate(models.Model):
+    created = models.DateTimeField(_(u'Data da Solicitação'),
+                                   auto_now_add=True)
+    segment = models.ForeignKey('Segment', verbose_name=_(u'Segmento'))
+    enterprise = models.CharField(_(u'Empresa'), max_length=200)
+    cnpj = models.CharField(_(u'CNPJ'), max_length=20,
+                            help_text='99.999.999/9999-99')
+    name = models.CharField(_(u'Nome'), max_length=200)
+    address = models.CharField(_(u'Endereço'), max_length=200, blank=True,
+                               null=True)
+    cep = models.CharField(_(u'CEP'), max_length=9, help_text='99999-999',
+                           blank=True, null=True)
+    complement = models.CharField(_(u'Complemento'), max_length=100,
+                                  blank=True, null=True)
+    district = models.CharField(_(u'Bairro'), max_length=100)
+    city = models.CharField(_(u'Cidade'), max_length=100)
+    state = models.CharField(_(u'UF'), max_length=2, choices=STATE_CHOICES)
+    phone = models.CharField(_(u'Fone'), max_length=20,
+                             help_text='(99) 9999-9999')
+    email = models.EmailField(_(u'Email'))
+    message = tinymce_models.HTMLField(_(u'Mensagem'))
+
+    def admin_description(self):
+        return self.description
+    admin_description.allow_tags = True
+    admin_description.short_description = _(u'Mensagem')
+
+    def __unicode__(self):
+        return unicode(self.name)
+
+    class Meta:
+        verbose_name = _(u'Cotação')
+        verbose_name_plural = _(u'Cotações')
+        ordering = ['-created']

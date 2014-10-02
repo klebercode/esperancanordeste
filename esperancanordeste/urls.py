@@ -15,15 +15,13 @@ urlpatterns = patterns(
     url(r'^institucional/', 'esperancanordeste.core.views.institutional',
         name='institutional'),
     url(r'^pedido/', 'esperancanordeste.core.views.order', name='order'),
-    url(r'^orcamento/', 'esperancanordeste.core.views.estimate',
-        name='estimate'),
     url(r'^marcas/', BrandListView.as_view(), name='brand'),
 
     url(r'^campanhas/', include('esperancanordeste.campain.urls',
         namespace='campain')),
     url(r'^catalogo/', include('esperancanordeste.catalog.urls',
         namespace='catalog')),
-    url(r'^area/', include('esperancanordeste.sale.urls',
+    url(r'^vendas/', include('esperancanordeste.sale.urls',
         namespace='sale')),
 
     url(r'^grappelli/', include('grappelli.urls')),

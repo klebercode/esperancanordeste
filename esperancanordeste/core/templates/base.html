@@ -71,7 +71,7 @@
                     <a href="{% url 'campain:home' %}">Campanhas</a>
                   </li>
                   <li class="hidden-sm{% block nav_estimate %}{% endblock %}">
-                    <a href="{% url 'estimate' %}">Cotação</a>
+                    <a href="{% url 'sale:estimate' %}">Cotação</a>
                   </li>
                   <li class="hidden-sm{% block nav_contact %}{% endblock %}">
                     <a href="{% url 'contact' %}">Contato</a>
@@ -114,7 +114,7 @@
             <form class="form" role="form">
               <div class="row">
                 <div class="input-group">
-                  <input type="text" class="form-control" id="search" placeholder="Buscar">
+                  <input type="text" class="form-control" id="search" placeholder="Buscar Produto...">
                   <span class="input-group-btn">
                     <button type="submit" class="btn"><i class="fa fa-search"></i></button>
                   </span>

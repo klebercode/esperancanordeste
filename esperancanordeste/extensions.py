@@ -34,6 +34,11 @@ class Navbar(object):
                 'admin:campain_entry_changelist'),
             'perm': 'campain.change_entry',
         }),
+        ('Cotação', {
+            'url': reverse_lazy(
+                'admin:sale_estimate_changelist'),
+            'perm': 'sale.change_estimate',
+        }),
         ('Receba seu pedido', {
             'url': reverse_lazy(
                 'admin:core_order_changelist'),
@@ -143,6 +148,11 @@ class Sidebar(object):
             'url': reverse_lazy(
                 'admin:campain_entry_changelist'),
             'perm': 'campain.change_entry',
+        }),
+        ('Cotação', {
+            'url': reverse_lazy(
+                'admin:sale_estimate_changelist'),
+            'perm': 'sale.change_estimate',
         }),
         ('Receba seu pedido', {
             'url': reverse_lazy(

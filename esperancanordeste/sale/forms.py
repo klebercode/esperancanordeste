@@ -3,6 +3,8 @@ from django import forms
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 
+from esperancanordeste.sale.models import Estimate
+
 
 class ContactForm(forms.Form):
     email_to = forms.CharField(label=u'Para',
@@ -48,6 +50,39 @@ class ContactForm(forms.Form):
                                      'no-reply@esperancanordeste.com.br',
                                      [self.cleaned_data['email_to']])
                                      # ['kleberss@gmail.com'])
+
+        msg.attach_alternative(message_html, 'text/html')
+        msg.send()
+
+
+class EstimateForm(forms.ModelForm):
+    class Meta:
+        model = Estimate
+
+    def send_mail(self):
+        subject = u'Solicitação de Orçamento \
+            (%s)' % self.cleaned_data['enterprise']
+        context = {
+            'segment': self.cleaned_data['segment'],
+            'enterprise': self.cleaned_data['enterprise'],
+            'cnpj': self.cleaned_data['cnpj'],
+            'address': self.cleaned_data['address'],
+            'cep': self.cleaned_data['cep'],
+            'complement': self.cleaned_data['complement'],
+            'district': self.cleaned_data['district'],
+            'city': self.cleaned_data['city'],
+            'state': self.cleaned_data['state'],
+            'phone': self.cleaned_data['phone'],
+            'email': self.cleaned_data['email'],
+            'message': self.cleaned_data['message'],
+        }
+
+        email_to = 'vendas@esperancanordeste.com.br'
+        message = render_to_string('sale/estimate_mail.txt', context)
+        message_html = render_to_string('sale/estimate_mail.html', context)
+        msg = EmailMultiAlternatives(subject, message,
+                                     'no-reply@esperancanordeste.com.br',
+                                     [email_to])
 
         msg.attach_alternative(message_html, 'text/html')
         msg.send()

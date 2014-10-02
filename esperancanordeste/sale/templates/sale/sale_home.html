@@ -93,10 +93,9 @@
                       <strong>Email:</strong>
                     </span>
                     <span class="col-sm-10 email_to">
-                      {% for e in s.email.all %}
-                        {{ e.address }}
-                        {% if not forloop.last %}<br> {% endif %}
-                      {% endfor %}
+                      {% autoescape off %}
+                      {{ s.get_email }}
+                      {% endautoescape %}
                     </span>
                   </div>
                   <div class="row">
@@ -104,9 +103,9 @@
                       <strong>Fone:</strong>
                     </span>
                     <span class="col-sm-10">
-                      {% for p in s.phone.all %}
-                        {{ p.number }} [{{ p.get_operator_display }}]{% if not forloop.last %}<br> {% endif %}
-                      {% endfor %}
+                      {% autoescape off %}
+                      {{ s.get_phone }}
+                      {% endautoescape %}
                     </span>
                   </div>
                 </div>
