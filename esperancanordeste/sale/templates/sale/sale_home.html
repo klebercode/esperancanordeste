@@ -37,7 +37,9 @@
         <div class="row">
           <div class="col-sm-12">
             {% for a in area_list %}
-            <p>{{ a.description }}<br><br></p>
+            {% autoescape off %}
+            <p>{{ a.description|linebreaks|cut:"../../../.." }}<br><br></p>
+            {% endautoescape %}
             {% endfor %}
             <h3 class="headline first-child"><span>Encontre o seu vendedor</span></h3>
             <!-- Search -->
