@@ -74,7 +74,7 @@ class SellerPublishedManager(models.Manager):
 
 class Seller(models.Model):
     area = models.ForeignKey(Area, verbose_name=_(u'Página'), blank=True,
-                             null=True)
+                             null=True, editable=False)
     name = models.CharField(_(u'Nome'), max_length=150, unique=True)
     state = models.CharField(_(u'UF'), max_length=2, choices=STATE_CHOICES)
     segment = models.ManyToManyField(Segment, verbose_name=_(u'Segmento'))
@@ -100,7 +100,7 @@ class Seller(models.Model):
     get_email.short_description = _(u'Emails')
 
     def save(self, *args, **kwargs):
-        check = Area.objects.all()[:1]
+        check = Area.objects.all().order_by('-pk')[:1]
         if not check:
             a = Area(description=u"Aguardando conteúdo...")
             a.save()

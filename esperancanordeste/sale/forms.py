@@ -44,11 +44,14 @@ class ContactForm(forms.Form):
             'subject': self.cleaned_data['subject'],
             'message': self.cleaned_data['message'],
         }
+
+        email_to = self.cleaned_data['email_to']
         message = render_to_string('contact_mail.txt', context)
         message_html = render_to_string('contact_mail.html', context)
         msg = EmailMultiAlternatives(subject, message,
                                      'no-reply@esperancanordeste.com.br',
-                                     [self.cleaned_data['email_to']])
+                                     ['vendas@esperancanordeste.com.br',
+                                      email_to])
                                      # ['kleberss@gmail.com'])
 
         msg.attach_alternative(message_html, 'text/html')

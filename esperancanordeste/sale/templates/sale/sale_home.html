@@ -77,7 +77,7 @@
         <div class="row">
           <div class="col-sm-5">
             <h3 class="headline first-child"><span>Selecione um vendedor</span></h3>
-            {% for s in seller_list %}
+            {% for s in page_obj %}
             <div class="row">
               <label class="col-sm-12 select_email_to">
                 <input class="col-sm-1" id="{{ s.pk }}" name="signal_email_to" type="radio">
@@ -112,8 +112,13 @@
                   </div>
                 </div>
               </label>
-            </div>
+            </div> <!-- . row -->
             {% endfor %}
+
+            <center>
+              {% include "paginator.html" %}
+            </center>
+
           </div>
           <div class="col-sm-7">
             <h3 class="headline second-child"><span>Envie sua mensagem</span></h3>
@@ -141,6 +146,7 @@
             {% endif %}
           </div>
         </div> <!-- / .row -->
+
       </div> <!-- / .container -->
 
     </div> <!-- / .wrapper -->
