@@ -52,7 +52,9 @@ def home(request):
     except EmptyPage:
         sellers = paginator.page(paginator.num_pages)
 
-    context['is_paginated'] = True
+    if paginator.num_pages > 1:
+        context['is_paginated'] = True
+
     context['page_obj'] = sellers
     context['segment'] = segment
     context['state'] = state
