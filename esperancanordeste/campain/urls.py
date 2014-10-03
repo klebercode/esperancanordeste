@@ -10,6 +10,6 @@ urlpatterns = patterns(
     url(r'^$', EntryListView.as_view(), name='home'),
     url(r'^(?P<slug>[-\w]+)/$', EntryDetailListView.as_view(),
         name='entry_detail'),
-    url(r'^marcacao/(?P<tag_slug>[-\w]+)/$', EntryTagListView.as_view(),
-        name='tag_list'),
+    url(r'^categoria/(?P<cat_slug>[-\w]+)/$', EntryTagListView.as_view(),
+        name='cat_list'),
 )

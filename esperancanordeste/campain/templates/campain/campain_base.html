@@ -50,13 +50,13 @@
             <!-- Categories -->
             <div class="panel panel-default">
               <div class="panel-heading">
-                Marcações
+                Categorias
               </div>
               <div class="panel-body">
                 <ul>
                   <li><a href="{% url 'campain:home' %}">TODAS</a></li>
-                  {% for tag in tag_list %}
-                    <li><a href="{% url 'campain:tag_list' tag.slug %}">{{ tag }}</a></li>
+                  {% for cat in category_list %}
+                    <li><a href="{% url 'campain:cat_list' cat.category %}">{{ cat.get_category_display }}</a></li>
                   {% endfor %}
                 </ul>
               </div>
@@ -80,7 +80,7 @@
 
                 {% endblock body %}
                 {% endautoescape %}
-                <a class="btn btn btn-blue" href="#">Leia mais...</a>
+                <a class="btn btn btn-blue" href="{{ object.get_absolute_url }}">Leia mais...</a>
                 {% if object.video %}
                   <div class="video-container">
                   {% video object.video '100%x420' %}

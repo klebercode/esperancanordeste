@@ -6,14 +6,14 @@ from django.views import generic
 
 from esperancanordeste.context_processors import EnterpriseExtraContext
 
-from esperancanordeste.campain.models import Entry
+from esperancanordeste.campain.models import Entry, Category
 
 
 class EntryListView(EnterpriseExtraContext,  generic.ListView):
     queryset = Entry.published.all()
     template_name = 'campain/campain_home.html'
     # TODO: mudar a paginacao para 10
-    paginate_by = 10
+    paginate_by = 5
 
     def get_queryset(self, **kwargs):
         search = self.request.GET.get('search', '')
@@ -29,7 +29,7 @@ class EntryListView(EnterpriseExtraContext,  generic.ListView):
         context = super(EntryListView, self).get_context_data(**kwargs)
         search = self.request.GET.get('search', '')
         context['search'] = search
-        context['tag_list'] = Entry.tags.most_common()
+        context['category_list'] = Category.objects.all()
         return context
 
 
@@ -41,7 +41,8 @@ class EntryTagListView(EntryListView):
         """
         Incluir apenas as Entries marcadas com a tag selecionada
         """
-        return Entry.published.filter(tags__slug=self.kwargs['tag_slug'])
+        return Entry.published.filter(
+            categories__category=self.kwargs['cat_slug'])
 
 
 class EntryDetailListView(EntryListView):
