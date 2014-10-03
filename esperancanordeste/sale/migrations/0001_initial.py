@@ -8,94 +8,93 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        return
-        # # Adding model 'Area'
-        # db.create_table(u'sale_area', (
-        #     (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-        #     ('description', self.gf('tinymce.models.HTMLField')()),
-        # ))
-        # db.send_create_signal(u'sale', ['Area'])
+        # Adding model 'Area'
+        db.create_table(u'sale_area', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('description', self.gf('tinymce.models.HTMLField')()),
+        ))
+        db.send_create_signal(u'sale', ['Area'])
 
-        # # Adding model 'Segment'
-        # db.create_table(u'sale_segment', (
-        #     (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-        #     ('name', self.gf('django.db.models.fields.CharField')(unique=True, max_length=50)),
-        # ))
-        # db.send_create_signal(u'sale', ['Segment'])
+        # Adding model 'Segment'
+        db.create_table(u'sale_segment', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(unique=True, max_length=50)),
+        ))
+        db.send_create_signal(u'sale', ['Segment'])
 
-        # # Adding model 'Phone'
-        # db.create_table(u'sale_phone', (
-        #     (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-        #     ('operator', self.gf('django.db.models.fields.IntegerField')()),
-        #     ('number', self.gf('django.db.models.fields.CharField')(max_length=20)),
-        #     ('default', self.gf('django.db.models.fields.BooleanField')()),
-        # ))
-        # db.send_create_signal(u'sale', ['Phone'])
+        # Adding model 'Phone'
+        db.create_table(u'sale_phone', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('operator', self.gf('django.db.models.fields.IntegerField')()),
+            ('number', self.gf('django.db.models.fields.CharField')(max_length=20)),
+            ('default', self.gf('django.db.models.fields.BooleanField')()),
+        ))
+        db.send_create_signal(u'sale', ['Phone'])
 
-        # # Adding model 'Email'
-        # db.create_table(u'sale_email', (
-        #     (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-        #     ('address', self.gf('django.db.models.fields.EmailField')(max_length=75)),
-        #     ('default', self.gf('django.db.models.fields.BooleanField')()),
-        # ))
-        # db.send_create_signal(u'sale', ['Email'])
+        # Adding model 'Email'
+        db.create_table(u'sale_email', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('address', self.gf('django.db.models.fields.EmailField')(max_length=75)),
+            ('default', self.gf('django.db.models.fields.BooleanField')()),
+        ))
+        db.send_create_signal(u'sale', ['Email'])
 
-        # # Adding model 'Seller'
-        # db.create_table(u'sale_seller', (
-        #     (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-        #     ('area', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sale.Area'], null=True, blank=True)),
-        #     ('name', self.gf('django.db.models.fields.CharField')(unique=True, max_length=150)),
-        #     ('state', self.gf('django.db.models.fields.CharField')(max_length=2)),
-        #     ('visible', self.gf('django.db.models.fields.BooleanField')(default=True)),
-        # ))
-        # db.send_create_signal(u'sale', ['Seller'])
+        # Adding model 'Seller'
+        db.create_table(u'sale_seller', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('area', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sale.Area'], null=True, blank=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(unique=True, max_length=150)),
+            ('state', self.gf('django.db.models.fields.CharField')(max_length=2)),
+            ('visible', self.gf('django.db.models.fields.BooleanField')(default=True)),
+        ))
+        db.send_create_signal(u'sale', ['Seller'])
 
-        # # Adding M2M table for field segment on 'Seller'
-        # m2m_table_name = db.shorten_name(u'sale_seller_segment')
-        # db.create_table(m2m_table_name, (
-        #     ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-        #     ('seller', models.ForeignKey(orm[u'sale.seller'], null=False)),
-        #     ('segment', models.ForeignKey(orm[u'sale.segment'], null=False))
-        # ))
-        # db.create_unique(m2m_table_name, ['seller_id', 'segment_id'])
+        # Adding M2M table for field segment on 'Seller'
+        m2m_table_name = db.shorten_name(u'sale_seller_segment')
+        db.create_table(m2m_table_name, (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('seller', models.ForeignKey(orm[u'sale.seller'], null=False)),
+            ('segment', models.ForeignKey(orm[u'sale.segment'], null=False))
+        ))
+        db.create_unique(m2m_table_name, ['seller_id', 'segment_id'])
 
-        # # Adding M2M table for field phone on 'Seller'
-        # m2m_table_name = db.shorten_name(u'sale_seller_phone')
-        # db.create_table(m2m_table_name, (
-        #     ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-        #     ('seller', models.ForeignKey(orm[u'sale.seller'], null=False)),
-        #     ('phone', models.ForeignKey(orm[u'sale.phone'], null=False))
-        # ))
-        # db.create_unique(m2m_table_name, ['seller_id', 'phone_id'])
+        # Adding M2M table for field phone on 'Seller'
+        m2m_table_name = db.shorten_name(u'sale_seller_phone')
+        db.create_table(m2m_table_name, (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('seller', models.ForeignKey(orm[u'sale.seller'], null=False)),
+            ('phone', models.ForeignKey(orm[u'sale.phone'], null=False))
+        ))
+        db.create_unique(m2m_table_name, ['seller_id', 'phone_id'])
 
-        # # Adding M2M table for field email on 'Seller'
-        # m2m_table_name = db.shorten_name(u'sale_seller_email')
-        # db.create_table(m2m_table_name, (
-        #     ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-        #     ('seller', models.ForeignKey(orm[u'sale.seller'], null=False)),
-        #     ('email', models.ForeignKey(orm[u'sale.email'], null=False))
-        # ))
-        # db.create_unique(m2m_table_name, ['seller_id', 'email_id'])
+        # Adding M2M table for field email on 'Seller'
+        m2m_table_name = db.shorten_name(u'sale_seller_email')
+        db.create_table(m2m_table_name, (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('seller', models.ForeignKey(orm[u'sale.seller'], null=False)),
+            ('email', models.ForeignKey(orm[u'sale.email'], null=False))
+        ))
+        db.create_unique(m2m_table_name, ['seller_id', 'email_id'])
 
-        # # Adding model 'Estimate'
-        # db.create_table(u'sale_estimate', (
-        #     (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-        #     ('created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-        #     ('segment', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sale.Segment'])),
-        #     ('enterprise', self.gf('django.db.models.fields.CharField')(max_length=200)),
-        #     ('cnpj', self.gf('django.db.models.fields.CharField')(max_length=20)),
-        #     ('name', self.gf('django.db.models.fields.CharField')(max_length=200)),
-        #     ('address', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
-        #     ('cep', self.gf('django.db.models.fields.CharField')(max_length=9, null=True, blank=True)),
-        #     ('complement', self.gf('django.db.models.fields.CharField')(max_length=100, null=True, blank=True)),
-        #     ('district', self.gf('django.db.models.fields.CharField')(max_length=100)),
-        #     ('city', self.gf('django.db.models.fields.CharField')(max_length=100)),
-        #     ('state', self.gf('django.db.models.fields.CharField')(max_length=2)),
-        #     ('phone', self.gf('django.db.models.fields.CharField')(max_length=20)),
-        #     ('email', self.gf('django.db.models.fields.EmailField')(max_length=75)),
-        #     ('message', self.gf('tinymce.models.HTMLField')()),
-        # ))
-        # db.send_create_signal(u'sale', ['Estimate'])
+        # Adding model 'Estimate'
+        db.create_table(u'sale_estimate', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('segment', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sale.Segment'])),
+            ('enterprise', self.gf('django.db.models.fields.CharField')(max_length=200)),
+            ('cnpj', self.gf('django.db.models.fields.CharField')(max_length=20)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=200)),
+            ('address', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
+            ('cep', self.gf('django.db.models.fields.CharField')(max_length=9, null=True, blank=True)),
+            ('complement', self.gf('django.db.models.fields.CharField')(max_length=100, null=True, blank=True)),
+            ('district', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('city', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('state', self.gf('django.db.models.fields.CharField')(max_length=2)),
+            ('phone', self.gf('django.db.models.fields.CharField')(max_length=20)),
+            ('email', self.gf('django.db.models.fields.EmailField')(max_length=75)),
+            ('message', self.gf('tinymce.models.HTMLField')()),
+        ))
+        db.send_create_signal(u'sale', ['Estimate'])
 
 
     def backwards(self, orm):
