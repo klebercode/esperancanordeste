@@ -2,6 +2,7 @@
 from django.shortcuts import get_object_or_404
 
 from esperancanordeste.core.models import Enterprise, SocialLogo
+from esperancanordeste.catalog.models import Category
 
 
 def enterprise_proc(request):
@@ -12,10 +13,12 @@ def enterprise_proc(request):
         enterprise = ''
 
     social_list = SocialLogo.objects.all()
+    category_list = Category.objects.all()
 
     return {
         'enterprise': enterprise,
         'social_list': social_list,
+        'cat_list': category_list,
     }
 
 
@@ -27,10 +30,12 @@ class EnterpriseExtraContext(object):
         enterprise = ''
 
     social_list = SocialLogo.objects.all()
+    category_list = Category.objects.all()
 
     extra_context = {
         'enterprise': enterprise,
         'social_list': social_list,
+        'cat_list': category_list,
     }
 
     def get_context_data(self, **kwargs):

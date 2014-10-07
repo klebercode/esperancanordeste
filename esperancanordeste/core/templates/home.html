@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 
+{% load thumbnail %}
+{% load embed_video_tags %}
+
 {% block nav_home %} active{% endblock %}
 
 {% block content %}
@@ -20,9 +23,12 @@
           <!-- Wrapper for slides -->
           <div class="carousel-inner">
             <!-- Slide #1 -->
-            <div class="item active" id="item-1"></div>
+            {% for ban in banner_list %}
+              <div class="item{% if forloop.counter == 1 %} active{% endif %}" id="item-1" style="background-image: url({{ ban.image.url }});"></div>
+            {% endfor %}
+            <!--div class="item active" id="item-1"></div>
             <div class="item" id="item-2"></div>
-            <div class="item" id="item-3"></div>
+            <div class="item" id="item-3"></div-->
           </div> <!-- / .carousel -->
           <!-- Controls -->
           <a class="carousel-arrow carousel-arrow-prev" href="#home-slider" data-slide="prev">
@@ -38,6 +44,13 @@
       <div class="home-suppliers">
         <div class="container">
           <div id="owl-suppliers" class="owl-carousel owl-theme">
+            {% for par in partner_list %}
+              {% thumbnail par.image "80x50" format="PNG" as im %}
+                <div class="item"><img src="{{ im.url }}" alt="{{ par.name }}"></div>
+              {% empty %}
+                <p>Sem Imagem</p>
+              {% endthumbnail %}
+            {% endfor %}
             <div class="item"><img src="http://placehold.it/80x50/cccccc/FFFFFF"></div>
             <div class="item"><img src="http://placehold.it/80x50/cccccc/FFFFFF"></div>
             <div class="item"><img src="http://placehold.it/80x50/cccccc/FFFFFF"></div>
@@ -66,86 +79,28 @@
 
       <!-- begin: catalog -->
       <div class="home-catalog">
-        <!-- begin: catalog:box-1 -->
-        <div class="box">
-          <div class="container">
-            <div class="row">
-              <div class="col-sm-6">
-                <div class="col-sm-5">
-                  <h2>EPI</h2>
-                  <p>
-                    BOTAS<br>
-                    PROTETORES AUDITIVOS<br>
-                    CAPAS DE CHUVA<br>
-                    LUVAS<br>
-                    OCULOS<br>
-                    CAPACETES<br>
-                  </p>
-                </div>
-                <div class="col-sm-7">
-                  <img class="img-responsive" src="{{ STATIC_URL }}img/ignore/catalog/epi.png" />
-                </div>
+        <div class="container">
+          {% regroup product_list by category.name as category_list %}
+          <ul>
+            {% for category in category_list %}
+            <li class="col-sm-6 col-md-6 col-lg-6">
+              <div class="col-sm-5">
+                <a href="{% url 'catalog:category_list' category.list.0.category.slug %}">
+                  <h2>{{ category.grouper }}</h2>
+                </a>
+                {% for item in category.list %}
+                <a href="{{ item.get_absolute_url }}">
+                  <p>{{ item.name }}</p>
+                </a>
+                {% endfor %}
               </div>
-              <div class="col-sm-6">
-                <div class="col-sm-5">
-                  <h2>EPI</h2>
-                  <p>
-                    BOTAS<br>
-                    PROTETORES AUDITIVOS<br>
-                    CAPAS DE CHUVA<br>
-                    LUVAS<br>
-                    OCULOS<br>
-                    CAPACETES<br>
-                  </p>
-                </div>
-                <div class="col-sm-7">
-                  <img class="img-responsive" src="{{ STATIC_URL }}img/ignore/catalog/epi.png" />
-                </div>
+              <div class="col-sm-7">
+                <img class="img-responsive" src="{{ category.list.0.category.image.url }}" />
               </div>
-            </div>
-          </div>
+            </li>
+            {% endfor %}
+          </ul>
         </div>
-        <!-- end: catalog:box-1 -->
-        <!-- begin: catalog:box-2 -->
-        <div class="box">
-          <div class="container">
-            <div class="row">
-              <div class="col-sm-6">
-                <div class="col-sm-5">
-                  <h2>EPI</h2>
-                  <p>
-                    BOTAS<br>
-                    PROTETORES AUDITIVOS<br>
-                    CAPAS DE CHUVA<br>
-                    LUVAS<br>
-                    OCULOS<br>
-                    CAPACETES<br>
-                  </p>
-                </div>
-                <div class="col-sm-7">
-                  <img class="img-responsive" src="{{ STATIC_URL }}img/ignore/catalog/epi.png" />
-                </div>
-              </div>
-              <div class="col-sm-6">
-                <div class="col-sm-5">
-                  <h2>EPI</h2>
-                  <p>
-                    BOTAS<br>
-                    PROTETORES AUDITIVOS<br>
-                    CAPAS DE CHUVA<br>
-                    LUVAS<br>
-                    OCULOS<br>
-                    CAPACETES<br>
-                  </p>
-                </div>
-                <div class="col-sm-7">
-                  <img class="img-responsive" src="{{ STATIC_URL }}img/ignore/catalog/epi.png" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- end: catalog:box-2 -->
       </div>
       <!-- end: catalog -->
 
@@ -155,16 +110,10 @@
           <div class="row">
             {% for step in step_list %}
               <div class="col-sm-4">
-                <a href="{% if step.link %}{{ step.link }}{% else %}{{ step.page }}{% endif %}">
+                <a href="{% if forloop.counter == 1 %}{% url 'order' %}{% elif forloop.counter == 2 %}#{% elif forloop.counter == 3 %}{% url 'sale:estimate' %}{% endif %}">
                   <div class="services">
                     <div class="service-item {% if forloop.counter == 1 %}red{% elif forloop.counter == 2 %}green{% elif forloop.counter == 3 %}blue{% endif %}">
-                      {% if forloop.counter == 1 %}
-                        <i class="fa fa-truck"></i>
-                      {% elif forloop.counter == 2 %}
-                        <i class="fa fa-download"></i>
-                      {% elif forloop.counter == 3  %}
-                        <i class="fa fa-edit"></i>
-                      {% endif %}
+                      <i class="fa {% if forloop.counter == 1 %}fa-truck{% elif forloop.counter == 2 %}fa-download{% elif forloop.counter == 3 %}fa-edit{% endif %}"></i>
                       <div class="service-desc">
                         <h5>{{ step.title }}</h5>
                         <p>{{ step.description }}</p>
@@ -183,39 +132,37 @@
       <div class="main-marketing">
         <section id="companyCarousel" class="carousel carousel-2 slide bg-3" data-ride="carousel">
           <div class="carousel-inner">
-              <div class="item active">
+            {% for cap in campain_list %}
+              <div class="item {% if forloop.counter == 1 %}active{% endif %}">
                   <div class="container">
                       <div class="row">
                           <div class="col-md-6">
-                              <h2>Performance and design for your business</h2>
-                              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                              </p>
-                              <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.
-                              </p>
+                              <h2>{{ cap.title }}</h2>
+                              {% autoescape off %}
+                                <p>{{ cap.body }}</p>
+                              {% endautoescape %}
                           </div>
                           <div class="col-md-6">
-                              <img src="{{ STATIC_URL }}img/ignore/marketing/20.jpg" class="img-responsive" alt="">
+                            {% if cap.video %}
+                              <div class="video-container">
+                              {% video cap.video '100%x364' %}
+                              </div>
+                            {% elif cap.image %}
+                              {% thumbnail cap.image "485x364" crop="center" format="PNG" as im %}
+                                <a href="{{ cap.get_absolute_url }}">
+                                  <img src="{{ im.url }}" alt="{{ cap.title }}" class="img-responsive">
+                                </a>
+                              {% empty %}
+                                <p>Imagem não encontrada.</p>
+                              {% endthumbnail %}
+                            {% else %}
+                              <p>Imagem ou vídeo não encontrado.</p>
+                            {% endif %}
                           </div>
                       </div>
                   </div>
               </div>
-
-              <div class="item">
-                  <div class="container">
-                      <div class="row">
-                          <div class="col-md-6">
-                              <h2>Complete features at your hand</h2>
-                              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                              </p>
-                              <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.
-                              </p>
-                          </div>
-                          <div class="col-md-6">
-                              <img src="{{ STATIC_URL }}img/ignore/marketing/20.jpg" class="img-responsive" alt="">
-                          </div>
-                      </div>
-                  </div>
-              </div>
+            {% endfor %}
           </div>
           <a class="carousel-arrow carousel-arrow-prev" href="#companyCarousel" data-slide="prev">
             <i class="fa fa-angle-left"></i>

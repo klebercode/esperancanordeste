@@ -9,8 +9,8 @@ class CatalogAdmin(admin.ModelAdmin):
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name',)
-    search_fields = ('name',)
+    list_display = ('admin_image', 'name',)
+    search_fields = ('admin_image', 'name',)
     prepopulated_fields = {'slug': ('name',)}
 
 

@@ -176,8 +176,9 @@ class Step(models.Model):
     title = models.CharField(_(u'Título'), max_length=21)
     description = models.CharField(_(u'Descrição'), max_length=90)
     page = models.CharField(_(u'Página'), max_length=20, choices=PAGE_CHOICES,
-                            blank=True, null=True)
-    link = models.URLField(_(u'Link para site externo'), blank=True, null=True)
+                            blank=True, null=True, editable=False)
+    link = models.URLField(_(u'Link para site externo'), blank=True, null=True,
+                           editable=False)
 
     def __unicode__(self):
         return unicode(self.title)
@@ -293,3 +294,77 @@ class Partner(models.Model):
     class Meta:
         verbose_name = _(u'Parceiro')
         verbose_name_plural = _(u'Parceiros')
+
+
+class BannerAllManager(models.Manager):
+    """
+    Esse manager carrega todos os objetos do model Catalog sem filtros
+    """
+    def get_queryset(self):
+        return super(BannerAllManager,
+                     self).get_queryset().all()
+
+
+class BannerPublishedManager(models.Manager):
+    """
+    Esse manager carrega todos os objetos do model Catalog que estao marcados
+    como visible=True
+    """
+    def get_queryset(self):
+        return super(BannerPublishedManager,
+                     self).get_queryset().filter(publish=True)
+
+
+class Banner(models.Model):
+    image = ImageField(_(u'Imagem'), upload_to=u'banner',
+                       help_text='Tamanho: 1920x1275 px (Ideal)')
+    publish = models.BooleanField(_(u'Visível no site?'), default=True)
+
+    # quando precisar chamar todos os objetos sem filtro:
+    # Product.objects.all()
+    objects = BannerAllManager()
+    # quando precisar chamar apenas os objetos com visible=True:
+    # Product.published.all()
+    published = BannerPublishedManager()
+
+    def admin_image(self):
+        return '<img src="%s" width="200" />' % self.image.url
+    admin_image.allow_tags = True
+    admin_image.short_description = 'Imagem'
+
+    def save(self, *args, **kwargs):
+        if not self.id and not self.image:
+            return
+
+        super(Banner, self).save(*args, **kwargs)
+
+        image = Image.open(self.image)
+
+        def scale_dimensions(width, height, longest_side):
+            if width > height:
+                if width > longest_side:
+                    ratio = longest_side*1./width
+                    return (int(width*ratio), int(height*ratio))
+                elif height > longest_side:
+                    ratio = longest_side*1./height
+                    return (int(width*ratio), int(height*ratio))
+            return (width, height)
+
+        (width, height) = image.size
+        (width, height) = scale_dimensions(width, height, longest_side=1920)
+
+        size = (width, height)
+        """ redimensiona esticando """
+        # image = image.resize(size, Image.ANTIALIAS)
+        """ redimensiona proporcionalmente """
+        image.thumbnail(size, Image.ANTIALIAS)
+        """ redimensiona cortando para encaixar no tamanho """
+        # image = ImageOps.fit(image, size, Image.ANTIALIAS)
+        image.save(self.image.path, 'JPEG', quality=99)
+
+    def __unicode__(self):
+        return unicode(self.pk)
+
+    class Meta:
+        verbose_name = _(u'Banner')
+        verbose_name_plural = _(u'Banners')

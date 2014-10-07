@@ -13,6 +13,11 @@ class Navbar(object):
                     'admin:core_enterprise_changelist'),
                 'perm': 'core.change_enterprise',
             }),
+            ('Banner', {
+                'url': reverse_lazy(
+                    'admin:core_banner_changelist'),
+                'perm': 'core.change_banner',
+            }),
             ('Box da Home', {
                 'url': reverse_lazy(
                     'admin:core_step_changelist'),
@@ -22,6 +27,11 @@ class Navbar(object):
                 'url': reverse_lazy(
                     'admin:core_social_changelist'),
                 'perm': 'core.change_social',
+            }),
+            ('Newsletter', {
+                'url': reverse_lazy(
+                    'admin:newsletter_subscribe_changelist'),
+                'perm': 'newsletter.change_subscribe',
             }),
         )}),
         ('Institucional', {
@@ -128,6 +138,11 @@ class Sidebar(object):
                     'admin:core_enterprise_changelist'),
                 'perm': 'core.change_enterprise',
             }),
+            ('Banner', {
+                'url': reverse_lazy(
+                    'admin:core_banner_changelist'),
+                'perm': 'core.change_banner',
+            }),
             ('Box da Home', {
                 'url': reverse_lazy(
                     'admin:core_step_changelist'),
@@ -137,6 +152,11 @@ class Sidebar(object):
                 'url': reverse_lazy(
                     'admin:core_social_changelist'),
                 'perm': 'core.change_social',
+            }),
+            ('Newsletter', {
+                'url': reverse_lazy(
+                    'admin:newsletter_subscribe_changelist'),
+                'perm': 'newsletter.change_subscribe',
             }),
         )}),
         ('Institucional', {

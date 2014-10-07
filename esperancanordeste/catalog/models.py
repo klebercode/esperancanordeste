@@ -7,6 +7,10 @@ from django.template.defaultfilters import slugify
 from sorl.thumbnail import ImageField
 from esperancanordeste.fields import ContentTypeRestrictedFileField
 
+from south.modelsinspector import add_introspection_rules
+add_introspection_rules(
+    [], ["^esperancanordeste\.fields\.ContentTypeRestrictedFileField"])
+
 try:
     from PIL import Image, ImageOps
 except ImportError:
@@ -45,6 +49,43 @@ class Catalog(models.Model):
 class Category(models.Model):
     name = models.CharField(_(u'Nome'), max_length=30)
     slug = models.SlugField(_(u'Link'), max_length=30, unique=True)
+    image = ImageField(_(u'Imagem'), upload_to=u'category',
+                       help_text='Tamanho: 252x210 px (Ideal)')
+
+    def admin_image(self):
+        return '<img src="%s" width="100" />' % self.image.url
+    admin_image.allow_tags = True
+    admin_image.short_description = 'Imagem'
+
+    def save(self, *args, **kwargs):
+        if not self.id and not self.image:
+            return
+
+        super(Category, self).save(*args, **kwargs)
+
+        image = Image.open(self.image)
+
+        def scale_dimensions(width, height, longest_side):
+            if width > height:
+                if width > longest_side:
+                    ratio = longest_side*1./width
+                    return (int(width*ratio), int(height*ratio))
+                elif height > longest_side:
+                    ratio = longest_side*1./height
+                    return (int(width*ratio), int(height*ratio))
+            return (width, height)
+
+        (width, height) = image.size
+        (width, height) = scale_dimensions(width, height, longest_side=252)
+
+        size = (width, height)
+        """ redimensiona esticando """
+        # image = image.resize(size, Image.ANTIALIAS)
+        """ redimensiona proporcionalmente """
+        image.thumbnail(size, Image.ANTIALIAS)
+        """ redimensiona cortando para encaixar no tamanho """
+        # image = ImageOps.fit(image, size, Image.ANTIALIAS)
+        image.save(self.image.path, 'PNG', quality=99)
 
     def __unicode__(self):
         return unicode(self.name)

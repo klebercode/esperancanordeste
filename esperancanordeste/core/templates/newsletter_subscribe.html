@@ -1,0 +1,35 @@
+<!-- Newsletter -->
+<div class="col-sm-4">
+  <h4><i class="fa fa-envelope"></i> Newsletter</h4>
+  <p>
+    Digite seu e-mail abaixo para assinar nossa newsletter gratuita.
+    <br>
+    Prometemos não incomodá-lo muitas vezes!
+  </p>
+
+  {% if messages %}
+    {% for message in messages %}
+      {% autoescape off %}
+      <p>{{ message }}</p>
+      {% endautoescape %}
+    {% endfor %}
+  {% else %}
+  <form method="post" action=".">
+    <div class="row">
+      <div class="col-sm-11">
+      {% csrf_token %}
+      {% for field in newsletter_form %}
+        <div class="input-group">
+          <label class="sr-only" for="{{ field.name }}">{{ field.label }}</label>
+          {{ field }}
+          <span class="input-group-btn">
+            <input type="submit" name="enviar" class="btn btn-default" value="OK">
+          </span>
+        </div>
+        {{ field.errors }}
+      {% endfor %}
+      </div>
+    </div>
+  </form>
+  {% endif %}
+</div>

@@ -5,7 +5,7 @@ from django.contrib.admin.options import TabularInline, StackedInline
 from esperancanordeste.core.models import (Enterprise, Social, SocialLogo,
                                            Order, Step, Institutional,
                                            Timeline, PhotoInstitutional,
-                                           Brand, Partner)
+                                           Brand, Partner, Banner)
 
 
 class SocialLogoInline(TabularInline):
@@ -68,6 +68,11 @@ class BrandAdmin(admin.ModelAdmin):
     inlines = [PartnerInline]
 
 
+class BannerAdmin(admin.ModelAdmin):
+    list_filter = ('publish',)
+    list_display = ('admin_image', 'publish')
+
+
 admin.site.register(Social, SocialAdmin)
 admin.site.register(Enterprise, EnterpriseAdmin)
 admin.site.register(Order, OrderAdmin)
@@ -75,3 +80,4 @@ admin.site.register(Step, StepAdmin)
 admin.site.register(Institutional, InstitutionalAdmin)
 admin.site.register(Partner, PartnerAdmin)
 admin.site.register(Brand, BrandAdmin)
+admin.site.register(Banner, BannerAdmin)
