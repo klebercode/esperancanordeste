@@ -3063,6 +3063,14 @@ input[type="button"].btn-block {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175) 0 10px rgba(0, 0, 0, 0.175);
   background-clip: padding-box;
 }
+/*
+.dropdown-menu.catalog {
+  width: 100%;
+}*/
+.catalog-download,
+.catalog-download > ul {
+  width: 100%;
+}
 .dropdown-menu > li > ul {
   list-style: none;
 }

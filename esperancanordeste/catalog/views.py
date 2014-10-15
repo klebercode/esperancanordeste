@@ -30,7 +30,7 @@ class ProductListView(EnterpriseExtraContext,  generic.ListView):
         search = self.request.GET.get('search', '')
         context['search'] = search
         context['category_list'] = Category.objects.all()
-        context['catalog_list'] = Catalog.objects.all()[:1]
+        context['catalog_list'] = Catalog.objects.all()
         return context
 
 

@@ -43,7 +43,7 @@ class Catalog(models.Model):
     class Meta:
         verbose_name = _(u'Catálogo')
         verbose_name_plural = _(u'Catálogos')
-        ordering = ['-created']
+        ordering = ['-created', 'name']
 
 
 class Category(models.Model):

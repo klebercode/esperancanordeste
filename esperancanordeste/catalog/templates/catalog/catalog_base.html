@@ -59,11 +59,21 @@
               </div>
             </div>
             <div>
-              {% for b in catalog_list %}
-                <a href="{{ b.attach.url }}" class="btn btn-lg btn-blue col-sm-12" target="_blank">
-                  <h5>Baixe o catálogo completo</h5>
-                </a>
-              {% endfor %}
+              <!-- Single button -->
+              <div class="btn-group catalog-download">
+                <button type="button" class="btn btn-lg btn-blue dropdown-toggle col-sm-12" data-toggle="dropdown">
+                  Escolha um Catálogo <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu catalog" role="menu">
+                  {% for b in catalog_list %}
+                    <li>
+                      <a href="{{ b.attach.url }}" target="_blank">
+                        {{ b.name }}
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
             </div>
           </div>
           <div class="col-sm-9">
