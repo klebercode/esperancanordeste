@@ -1,5 +1,5 @@
 # coding: utf-8
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.shortcuts import render, get_object_or_404
 from django.template import RequestContext
 from django.views import generic
@@ -26,6 +26,31 @@ class SubscribeFormView(generic.FormView):
     def form_valid(self, form):
         form.save()
         return super(SubscribeFormView, self).form_valid(form)
+
+
+def home(request):
+    context = {}
+    context['step_list'] = Step.objects.all()
+    context['banner_list'] = Banner.published.all()
+    context['partner_list'] = Partner.objects.all().order_by('?')
+    context['campain_list'] = Entry.published.filter(
+        categories__category='campanha')
+
+    categoryargs = Category.objects.all().order_by('?')[:4]
+
+    product_list = Product.published.filter(
+        category__name__in=list(categoryargs[:4])).order_by('category')
+
+    context['product_list'] = product_list
+
+    search = request.GET.get('search', '')
+    if search:
+        context['search'] = search
+
+    return render(request, 'home.html', context,
+                  context_instance=RequestContext(request,
+                                                  processors=[enterprise_proc]
+                                                  ))
 
 
 class HomeListView(EnterpriseExtraContext, FormMixin, generic.ListView):

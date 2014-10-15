@@ -6,11 +6,11 @@
     <meta charset="utf-8">
     <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
+    <meta name="description" content="Esperança Nordeste">
     <meta name="author" content="OW7">
-    <!--<link rel="shortcut icon" href="ico/favicon.ico">-->
+    <link rel="shortcut icon" href="{{ STATIC_URL }}ico/favicon.ico">
 
-    <title>{{ enterprise.name }}</title>
+    <title>{{ enterprise.name }} - {{ enterprise.phone1 }}{% block title %}{% endblock title %}</title>
 
     <!-- Owl Carousel Assets -->
     <link href="{{ STATIC_URL }}owl-carousel/owl.carousel.css" rel="stylesheet">
@@ -80,12 +80,14 @@
                 <div class="row info">
                   <div class="col-md-9 pull-right">
                     <div class="col-md-5 phone">{{ enterprise.phone1 }}</div>
-                    <div class="col-md-5">
-                      SEGUNDA A SEXTA: 08H ÀS 18H<br>
-                      SABÁDO: 08H ÀS 12H
+                    <div class="col-md-5 atendimento">
+                      SEGUNDA A SEXTA: 08H ÀS 18H
+                      <!--<br>SABÁDO: 08H ÀS 12H-->
                     </div>
                     <div class="col-md-2 social">
-                      <img src="{{ STATIC_URL }}img/facebook_en.png">
+                      <a href="https://www.facebook.com/pages/ESPERAN%C3%87A-NORDESTE-LTDA/214415315269900" target="_blank">
+                        <img src="{{ STATIC_URL }}img/facebook_en.png">
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -115,21 +117,23 @@
               <a href="{% url 'brand' %}">Marcas</a>
             </li>
             <li class="hidden-sm{% block nav_promotion %}{% endblock %}">
-              <a href="{% url 'campain:cat_list' 'promocoes' %}">Promoções</a>
+              <a href="{% url 'campain:cat_list' 'promocao' %}">Promoções</a>
             </li>
             <li class="hidden-sm{% block nav_catalog %}{% endblock %}">
               <a href="{% url 'catalog:home' %}">Catálogo de Produtos</a>
             </li>
           </ul>
           <div class="col-sm-3 search">
-            <form class="form" role="form" method="get">
-              <div class="row">
-                <div class="input-group">
-                  <input type="text" class="form-control" id="search" placeholder="Buscar Produto...">
-                  <span class="input-group-btn">
-                    <button type="submit" class="btn"><i class="fa fa-search"></i></button>
-                  </span>
-                </div>
+            <!-- Search -->
+            <form role="form" action="/catalogo/" method="get">
+                <div class="row">
+                    <div class="input-group">
+                      <input id="search" name="search" type="text" class="form-control" placeholder="Buscar Produto...">
+                      <span class="input-group-btn">
+                        <button class="btn" type="submit"><i class="fa fa-search"></i></button>
+                      </span>
+                    </div><!-- /.input-group -->
+                </div><!-- /.row -->
               </div>
             </form>
           </div>
@@ -179,14 +183,15 @@
               Prometemos não incomodá-lo muitas vezes!
             </p>
 
-            {% if messages %}
-              {% for message in messages %}
-                {% autoescape off %}
-                <p>{{ message }}</p>
-                {% endautoescape %}
-              {% endfor %}
+            {% if subscribe_success %}
+              <p>Obrigado!<br>Email cadastrado com sucesso.</p>
+              <a href="{% url 'home' %}" class="btn btn-blue">Voltar</a>
+            {% elif subscribe_exist %}
+              <p>Esse email já está cadastrado.</p>
+              <a href="{% url 'home' %}" class="btn btn-blue">Voltar</a>
             {% else %}
             <form method="post" action=".">
+              {% csrf_token %}
               <div class="row">
                 <div class="col-sm-11">
                 {% csrf_token %}

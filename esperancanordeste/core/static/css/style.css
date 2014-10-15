@@ -7823,6 +7823,13 @@ footer .form-control {
   font-weight: 900;
   text-align: right;
 }
+.top-menu .atendimento {
+  padding: 10px 10px;
+}
+.top-menu .social {
+  margin: 0;
+  padding: 5px 0;
+}
 .top-menu .social img {
   width: 26px;
   height: 26px;

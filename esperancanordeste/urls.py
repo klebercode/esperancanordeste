@@ -9,8 +9,8 @@ admin.autodiscover()
 
 urlpatterns = patterns(
     '',
-    # url(r'^$', 'esperancanordeste.core.views.home', name='home'),
-    url(r'^$', HomeListView.as_view(), name='home'),
+    url(r'^$', 'esperancanordeste.core.views.home', name='home'),
+    # url(r'^$', HomeListView.as_view(), name='home'),
     url(r'^contato/', 'esperancanordeste.core.views.contact', name='contact'),
     url(r'^institucional/', 'esperancanordeste.core.views.institutional',
         name='institutional'),
