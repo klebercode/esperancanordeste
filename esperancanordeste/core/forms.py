@@ -2,12 +2,23 @@
 from django import forms
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
+from django.utils.translation import ugettext_lazy as _
 
 import datetime
 now = datetime.datetime.now()
 
 from esperancanordeste.fields import MonthYearWidget
 from esperancanordeste.core.models import Timeline
+
+
+SUBJECT_CHOICES = (
+    (_(u'--- Escolha um assunto ---'), _(u'--- Escolha um assunto ---')),
+    (_(u'Dúvida'), _(u'Dúvida')),
+    (_(u'Elogio'), _(u'Elogio')),
+    (_(u'SAC'), _(u'SAC')),
+    (_(u'Informação'), _(u'Informação')),
+    (_(u'Reclamação'), _(u'Reclamação')),
+)
 
 
 class ContactForm(forms.Form):
@@ -23,13 +34,17 @@ class ContactForm(forms.Form):
                              widget=forms.TextInput(
                                  attrs={'class': 'form-control',
                                         'placeholder': 'E-mail'}))
-    subject = forms.CharField(label=u'Assunto',
-                              widget=forms.TextInput(
-                                  attrs={'class': 'form-control',
-                                         'placeholder': 'Assunto'}))
+    subject = forms.ChoiceField(label=u'Assunto', choices=SUBJECT_CHOICES,
+                                widget=forms.Select(
+                                    attrs={'class': 'form-control',
+                                           'placeholder': 'Assunto'}))
+    # subject = forms.CharField(label=u'Assunto',
+    #                           widget=forms.TextInput(
+    #                               attrs={'class': 'form-control',
+    #                                      'placeholder': 'Assunto'}))
     message = forms.CharField(label=u'Mensagem',
                               widget=forms.Textarea(
-                                  attrs={'class': 'form-control', 'rows': 3,
+                                  attrs={'class': 'form-control', 'rows': 6,
                                          'placeholder': 'Mensagem'}))
 
     def send_mail(self):
