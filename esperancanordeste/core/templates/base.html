@@ -201,8 +201,9 @@
                   <div class="input-group">
                     <label class="sr-only" for="{{ field.name }}">{{ field.label }}</label>
                     {{ field }}
+                    <input type="hidden" name="subscribe" value="subscribe">
                     <span class="input-group-btn">
-                      <input type="submit" name="enviar" class="btn btn-default" value="OK">
+                      <input name="Subscribe" type="submit" name="enviar" class="btn btn-default" value="OK">
                     </span>
                   </div>
                   {{ field.errors }}

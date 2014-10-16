@@ -134,15 +134,15 @@ def contact(request):
     context = {}
 
     # contact
-    if request.method == 'POST':
-        form = ContactForm(request.POST)
-        if form.is_valid():
-            form.send_mail()
+    if request.method == 'POST' and 'contact' in request.POST:
+        contact_form = ContactForm(request.POST, prefix='Contact')
+        if contact_form.is_valid():
+            contact_form.send_mail()
             context['contact_success'] = True
     else:
-        form = ContactForm()
+        contact_form = ContactForm()
 
-    context['contact_form'] = form
+    context['contact_form'] = contact_form
 
     return render(request, 'contact.html', context,
                   context_instance=RequestContext(request,
@@ -169,5 +169,4 @@ class BrandListView(EnterpriseExtraContext,  generic.ListView):
         context = super(BrandListView, self).get_context_data(**kwargs)
         context['category_list'] = Category.objects.all()
         context['partner_list'] = Partner.objects.all()
-        print context
         return context

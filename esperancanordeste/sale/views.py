@@ -28,18 +28,6 @@ def home(request):
 
     # context['contact_form'] = form
 
-    # estimate
-    if request.method == 'POST':
-        form = EstimateForm(request.POST)
-        if form.is_valid():
-            form.save()
-            form.send_mail()
-            context['estimate_success'] = True
-    else:
-        form = EstimateForm()
-
-    context['estimate_form'] = form
-
     segment = request.GET.get('segment', '')
     state = request.GET.get('state', '')
     if segment and state:
@@ -66,6 +54,18 @@ def home(request):
 
     if paginator.num_pages > 1:
         context['is_paginated'] = True
+
+    # estimate
+    if request.method == 'POST' and 'estimate' in request.POST:
+        estimate_form = EstimateForm(request.POST, prefix='Estimate')
+        if estimate_form.is_valid():
+            estimate_form.save()
+            estimate_form.send_mail()
+            context['estimate_success'] = True
+    else:
+        estimate_form = EstimateForm(prefix='Estimate')
+
+    context['estimate_form'] = estimate_form
 
     context['page_obj'] = sellers
     context['segment'] = segment

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block nav_sale %} active{% endblock %}
+{% block nav_estimate %} active{% endblock %}
 
 {% block content %}
 
@@ -183,8 +183,9 @@
                   </div>
                 {% endif %}
               {% endfor %}
+              <input type="hidden" name="estimate" value="estimate">
               <div class="form-group col-sm-12">
-                <input type="submit" name="enviar" class="btn btn-blue" value="Enviar mensagem">
+                <input name="Estimate" type="submit" class="btn btn-blue" value="Enviar mensagem">
               </div>
             </form>
             {% endif %}
