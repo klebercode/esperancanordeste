@@ -9,8 +9,9 @@ from django.conf.urls import patterns, url
 
 urlpatterns = patterns(
     'esperancanordeste.sale.views',
-    url(r'^area/', 'home', name='home'),
-    url(r'^orcamento/', 'estimate', name='estimate'),
+    url(r'^cotacao/', 'home', name='home'),
+    # url(r'^area/', 'home', name='home'),
+    # url(r'^orcamento/', 'estimate', name='estimate'),
     # url(r'^area/', SaleFormView.as_view(), name='home'),
     # url(r'^orcamento/', EstimateFormView.as_view(), name='estimate'),
     # url(r'^(?P<category_slug>[-\w]+)/$',

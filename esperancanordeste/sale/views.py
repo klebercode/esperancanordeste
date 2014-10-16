@@ -17,16 +17,28 @@ from esperancanordeste.sale.forms import ContactForm, EstimateForm
 def home(request):
     context = {}
 
-    # contact
-    if request.method == 'POST':
-        form = ContactForm(request.POST)
-        if form.is_valid():
-            form.send_mail()
-            context['contact_success'] = True
-    else:
-        form = ContactForm()
+    # # contact
+    # if request.method == 'POST':
+    #     form = ContactForm(request.POST)
+    #     if form.is_valid():
+    #         form.send_mail()
+    #         context['contact_success'] = True
+    # else:
+    #     form = ContactForm()
 
-    context['contact_form'] = form
+    # context['contact_form'] = form
+
+    # estimate
+    if request.method == 'POST':
+        form = EstimateForm(request.POST)
+        if form.is_valid():
+            form.save()
+            form.send_mail()
+            context['estimate_success'] = True
+    else:
+        form = EstimateForm()
+
+    context['estimate_form'] = form
 
     segment = request.GET.get('segment', '')
     state = request.GET.get('state', '')

@@ -50,7 +50,7 @@ class ContactForm(forms.Form):
         message_html = render_to_string('contact_mail.html', context)
         msg = EmailMultiAlternatives(subject, message,
                                      'no-reply@esperancanordeste.com.br',
-                                     ['vendas@esperancanordeste.com.br',
+                                     ['sac@esperancanordeste.com.br',
                                       email_to])
                                      # ['kleberss@gmail.com'])
 
@@ -59,16 +59,25 @@ class ContactForm(forms.Form):
 
 
 class EstimateForm(forms.ModelForm):
+    email_to = forms.CharField(label=u'Para',
+                               widget=forms.TextInput(
+                                   attrs={'class': 'form-control',
+                                          'placeholder': 'Para',
+                                          }),
+                               required=False)
+
     class Meta:
         model = Estimate
 
     def send_mail(self):
-        subject = u'Solicitação de Orçamento \
+        subject = u'Solicitação de Cotação \
             (%s)' % self.cleaned_data['enterprise']
         context = {
+            'email_to': self.cleaned_data['email_to'],
             'segment': self.cleaned_data['segment'],
             'enterprise': self.cleaned_data['enterprise'],
             'cnpj': self.cleaned_data['cnpj'],
+            'name': self.cleaned_data['name'],
             'address': self.cleaned_data['address'],
             'cep': self.cleaned_data['cep'],
             'complement': self.cleaned_data['complement'],
@@ -80,12 +89,13 @@ class EstimateForm(forms.ModelForm):
             'message': self.cleaned_data['message'],
         }
 
-        email_to = 'vendas@esperancanordeste.com.br'
+        email_to = self.cleaned_data['email_to']
         message = render_to_string('sale/estimate_mail.txt', context)
         message_html = render_to_string('sale/estimate_mail.html', context)
         msg = EmailMultiAlternatives(subject, message,
                                      'no-reply@esperancanordeste.com.br',
-                                     [email_to])
+                                     ['sac@esperancanordeste.com.br',
+                                      email_to])
 
         msg.attach_alternative(message_html, 'text/html')
         msg.send()

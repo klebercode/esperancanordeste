@@ -162,7 +162,8 @@ class Estimate(models.Model):
     segment = models.ForeignKey('Segment', verbose_name=_(u'Segmento'))
     enterprise = models.CharField(_(u'Empresa'), max_length=200)
     cnpj = models.CharField(_(u'CNPJ'), max_length=20,
-                            help_text='99.999.999/9999-99')
+                            help_text='99.999.999/9999-99',
+                            blank=True, null=True)
     name = models.CharField(_(u'Nome'), max_length=200)
     address = models.CharField(_(u'Endereço'), max_length=200, blank=True,
                                null=True)
@@ -170,9 +171,12 @@ class Estimate(models.Model):
                            blank=True, null=True)
     complement = models.CharField(_(u'Complemento'), max_length=100,
                                   blank=True, null=True)
-    district = models.CharField(_(u'Bairro'), max_length=100)
-    city = models.CharField(_(u'Cidade'), max_length=100)
-    state = models.CharField(_(u'UF'), max_length=2, choices=STATE_CHOICES)
+    district = models.CharField(_(u'Bairro'), max_length=100,
+                                blank=True, null=True)
+    city = models.CharField(_(u'Cidade'), max_length=100,
+                            blank=True, null=True)
+    state = models.CharField(_(u'UF'), max_length=2, choices=STATE_CHOICES,
+                             blank=True, null=True)
     phone = models.CharField(_(u'Fone'), max_length=20,
                              help_text='(99) 9999-9999')
     email = models.EmailField(_(u'Email'))

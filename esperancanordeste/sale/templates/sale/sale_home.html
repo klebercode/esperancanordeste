@@ -77,6 +77,48 @@
         <div class="row">
           <div class="col-sm-5">
             <h3 class="headline first-child"><span>Selecione um vendedor</span></h3>
+            <div class="row new-visitor">
+              <label class="col-sm-12 select_email_to">
+                <input class="col-sm-1" id="{{ s.pk }}" name="signal_email_to" type="radio">
+                <div class="well col-sm-11">
+                  <div class="row">
+                    <span class="col-sm-12">
+                      <p><strong>É novo por aqui?<br>
+                      Clique aqui e preencha o formulário ao lado e<br>
+                      logo entraremos em contato com você.</strong></p>
+                    </span>
+                  </div>
+                  <div class="row">
+                    <span class="col-sm-2">
+                      <strong>Nome:</strong>
+                    </span>
+                    <span class="col-sm-10">
+                      {{ enterprise.name }}
+                    </span>
+                  </div>
+                  <div class="row">
+                    <span class="col-sm-2">
+                      <strong>Email:</strong>
+                    </span>
+                    <span class="col-sm-10 email_to">
+                      {% autoescape off %}
+                      {{ enterprise.email }}
+                      {% endautoescape %}
+                    </span>
+                  </div>
+                  <div class="row">
+                    <span class="col-sm-2">
+                      <strong>Fone:</strong>
+                    </span>
+                    <span class="col-sm-10">
+                      {% autoescape off %}
+                      {{ enterprise.phone1 }}
+                      {% endautoescape %}
+                    </span>
+                  </div>
+                </div>
+              </label>
+            </div> <!-- . row -->
             {% for s in page_obj %}
             <div class="row">
               <label class="col-sm-12 select_email_to">
@@ -121,27 +163,29 @@
 
           </div>
           <div class="col-sm-7">
-            <h3 class="headline second-child"><span>Envie sua mensagem</span></h3>
-            {% if contact_success %}
+            <h3 class="headline second-child"><span>Solicite um orçamento</span></h3>
+            {% if estimate_success %}
             <p>Mensagem enviada com sucesso.</p>
             <a href="{% url 'sale:home' %}" class="btn btn-blue">Voltar</a>
             {% else %}
             <form method="post" action=".">
               {% csrf_token %}
-                  <div class="form-group">
+                  <div class="form-group col-sm-12">
                     <label for="email_to">Para</label>
                     <input class="form-control" id="id_email_to" name="email_to" placeholder="Para" type="email" readonly="True">
                   </div>
-              {% for field in contact_form %}
+              {% for field in estimate_form %}
                 {% if not field.name = 'email_to' %}
-                  <div class="form-group">
+                  <div class="form-group {% if not field.name = 'message' %}col-sm-6{% else %}col-sm-12{% endif %}">
                     <label for="{{ field.name }}">{{ field.label }}</label>
                     {{ field }}
                     {{ field.errors }}
                   </div>
                 {% endif %}
               {% endfor %}
-              <input type="submit" name="enviar" class="btn btn-blue" value="Enviar mensagem">
+              <div class="form-group col-sm-12">
+                <input type="submit" name="enviar" class="btn btn-blue" value="Enviar mensagem">
+              </div>
             </form>
             {% endif %}
           </div>
@@ -157,18 +201,19 @@
 
   <script>
     $(document).ready(function(){
-
         $(".select_email_to").click(function(){
-
             //var email_to=$(this).attr('href').split('=')[1]
             var email_to=$(this).find('.email_to').text().trim();
-
             email_to=email_to.replace(/\s+/g, ', ');
-
             $('#id_email_to').val( email_to );
-
             return true;
         });
+    });
+    $(document).ready(function(){
+        $("input[type=text]").addClass("form-control");
+        $("input[type=email]").addClass("form-control");
+        $("textarea").addClass("form-control");
+        $("select").addClass("form-control");
     });
   </script>
 

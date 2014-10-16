@@ -112,7 +112,7 @@
           <div class="row">
             {% for step in step_list %}
               <div class="col-sm-4">
-                <a href="{% if forloop.counter == 1 %}{% url 'order' %}{% elif forloop.counter == 2 %}#{% elif forloop.counter == 3 %}{% url 'sale:estimate' %}{% endif %}">
+                <a href="{% if forloop.counter == 1 %}{% url 'order' %}{% elif forloop.counter == 2 %}#{% elif forloop.counter == 3 %}{% url 'sale:home' %}{% endif %}">
                   <div class="services">
                     <div class="service-item {% if forloop.counter == 1 %}red{% elif forloop.counter == 2 %}green{% elif forloop.counter == 3 %}blue{% endif %}">
                       <i class="fa {% if forloop.counter == 1 %}fa-truck{% elif forloop.counter == 2 %}fa-download{% elif forloop.counter == 3 %}fa-edit{% endif %}"></i>

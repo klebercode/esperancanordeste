@@ -1,5 +1,6 @@
 Solicitação de orçamento enviada pelo site.
 
+Para: {{ email_to }}
 Segmento: {{ segment }}
 Empresa: {{ enterprise }}
 CNPJ: {{ cnpj }}
