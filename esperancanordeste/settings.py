@@ -29,11 +29,13 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 TEMPLATE_DEBUG = DEBUG
 
-ALLOWED_HOSTS = ['.localhost',
-                 '127.0.0.1',
-                 '.herokuapp.com',
-                 '.esperancanordeste.com.br',
-                 '.ow7.com.br']
+ALLOWED_HOSTS = [
+    '.localhost',
+     '127.0.0.1',
+     '.herokuapp.com',
+     '.esperancanordeste.com.br',
+     '.ow7.com.br'
+]
 
 
 # Application definition
@@ -121,11 +123,11 @@ MEDIA_URL = '/media/'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # DEFAULT_FROM_EMAIL = 'Esperança Nordeste <no-reply@esperancanordeste.com.br>'
-# EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=False, cast=bool)
-# EMAIL_PORT = config('EMAIL_PORT', default=25, cast=int)
-# EMAIL_HOST = config('EMAIL_HOST', default='localhost')
-# EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
-# EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = config('EMAIL_HOST')
+# EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+# EMAIL_PORT = 587
 
 
 # django-tinymce
@@ -177,9 +179,3 @@ SOUTH_MIGRATION_MODULES = {
     'taggit': 'taggit.south_migrations',
     'photologue': 'photologue.south_migrations',
 }
-
-# # filebrowser
-# FILEBROWSER_MEDIA_URL = MEDIA_URL
-# FILEBROWSER_URL_FILEBROWSER_MEDIA = MEDIA_URL + 'filebrowser/'
-# FILEBROWSER_URL_TINYMCE = MEDIA_URL + "/tiny_mce/"
-# FILEBROWSER_PATH_TINYMCE = "tiny_mce/"
